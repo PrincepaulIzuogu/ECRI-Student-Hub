@@ -2,7 +2,7 @@
   "name": "My Dev Container",
 
   "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "frontend",
+  "service": ["frontend", "backend", "database"],
 
   "extensions": ["dbaeumer.vscode-eslint"],
 
