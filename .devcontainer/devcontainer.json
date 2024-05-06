@@ -1,0 +1,16 @@
+{
+  "name": "My App Dev Container",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app", // or "server" depending on the service
+  "workspaceFolder": "/workspace",
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "visualstudioexptteam.vscodeintellicode"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "forwardPorts": [3000, 8000] // Ports to forward from the container to the local machine
+}
