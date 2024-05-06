@@ -1,37 +1,31 @@
 version: '3.8'
 
 services:
-  app:
+  frontend:
     build:
       context: ./app
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Expose the frontend app on port 3000
-    volumes:
-      - ./app:/app
+      - "3000:3000"
+    command: ["npm", "start"]
 
-  server:
+  backend:
     build:
       context: ./Server
       dockerfile: Dockerfile
     ports:
-      - "8000:8000" # Expose the backend server on port 8000
-    volumes:
-      - ./Server:/app
+      - "8000:8000"
     depends_on:
-      - db
+      - database
+    environment:
+      DATABASE_URL: "postgresql://postgres:THD111@database/student_db"  # Adjust the URL according to your database configuration
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-  db:
+  database:
     image: postgres:latest
-    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: THD111
       POSTGRES_DB: student_db
     ports:
-      - "5432:5432" # Assuming your PostgreSQL database runs on port 5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data # Use a named volume for persisting PostgreSQL data
-
-volumes:
-  postgres_data:
+      - "5432:5432"
