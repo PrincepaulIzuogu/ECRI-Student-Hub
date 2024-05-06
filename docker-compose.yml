@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Expose the frontend app on port 3000
+    volumes:
+      - ./app:/app
+
+  server:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" # Expose the backend server on port 8000
+    volumes:
+      - ./Server:/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: THD111
+      POSTGRES_DB: student_db
+    ports:
+      - "5432:5432" # Assuming your PostgreSQL database runs on port 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Use a named volume for persisting PostgreSQL data
+
+volumes:
+  postgres_data:
