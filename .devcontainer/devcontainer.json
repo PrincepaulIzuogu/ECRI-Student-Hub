@@ -1,14 +1,28 @@
 {
-  "name": "My Dev Container",
+    "name": "ECRI Student Hub",
 
-  "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "frontend",
+    // Use the Dockerfile in the current directory for building the devcontainer
+    "dockerFile": "../Dockerfile",
 
-  "extensions": ["dbaeumer.vscode-eslint"],
+    // List extensions you want installed
+    "extensions": ["dbaeumer.vscode-eslint"],
 
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
-  },
+    // List of packages to install inside the devcontainer
+    "postCreateCommand": "docker-compose up --build",
 
-  "postCreateCommand": "docker-compose up --build"
+    // Forward ports from the container to the host
+    "forwardPorts": [8000, 3000],
+
+    // Mount the current workspace folder into the devcontainer
+    "mounts": ["source=/workspace/ECRI-Student-Hub,target=/app,type=bind"],
+
+    // Use settings from the vscode settings.json
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+
+    // Set environment variables
+    "remoteEnv": {
+        "DATABASE_URL": "postgres:THD111@database/student_db"
+    }
 }
