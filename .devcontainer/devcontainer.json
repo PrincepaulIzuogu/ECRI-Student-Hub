@@ -10,7 +10,6 @@
     "terminal.integrated.shell.linux": "/bin/bash"
   },
 
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl && curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo apt-get install -y docker-compose && docker-compose up --build",
-  
+  "postCreateCommand": "apt-get update && apt-get install -y curl && curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh && apt-get install -y docker-compose && docker-compose up --build",
   "forwardPorts": [8000, 3000]
 }
