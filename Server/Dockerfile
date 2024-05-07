@@ -1,5 +1,5 @@
 # Use Python image as base
-FROM python:3.9-slim
+FROM python:3.9-alpine
 
 # Install build tools (including gcc)
 RUN apt-get update && apt-get install -y --no-install-recommends \
