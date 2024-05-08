@@ -10,13 +10,6 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -fsSL https://get.docker.com -o get-docker.sh && \
-    sh get-docker.sh && \
-    apt-get install -y docker-compose
-
-
 # Copy the rest of the application
 COPY . .
 
