@@ -10,8 +10,7 @@
     "terminal.integrated.shell.linux": "/bin/bash"
   },
 
-  "postCreateCommand": "docker-compose up --build",
-  
+  "postCreateCommand": "docker-compose build && docker-compose up",
+
   "forwardPorts": [8000, 3000]
 }
-
