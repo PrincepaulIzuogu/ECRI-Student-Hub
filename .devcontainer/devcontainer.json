@@ -8,6 +8,4 @@
   },
 
   "postCreateCommand": "docker-compose up --build",
-
-  "forwardPorts": [8000, 3000]
 }
