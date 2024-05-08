@@ -1,11 +1,8 @@
 {
   "name": "My Dev Container",
-
   "extensions": ["dbaeumer.vscode-eslint"],
-
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
-
-  "postCreateCommand": "docker-compose up --build",
+  "postCreateCommand": "apt-get update && apt-get install -y curl && curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose up --build"
 }
