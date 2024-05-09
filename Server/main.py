@@ -26,7 +26,7 @@ app.add_middleware(
 )
 
 # Set up the PostgreSQL database engine
-DATABASE_URL = f"postgresql://postgres:THD111@localhost/student_db"
+DATABASE_URL = f"postgresql://postgres:THD111@database/student_db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
