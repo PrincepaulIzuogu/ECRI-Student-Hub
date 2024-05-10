@@ -17,13 +17,7 @@ services:
     depends_on:
       - database
     environment:
-      DATABASE_URL: "postgresql://postgres:THD111@database/student_db"  
-    command: ["./wait-for-it.sh", "database:5432", "--", "python", "main.py"]  
-    volumes:
-      - ./wait-for-it.sh:/wait-for-it.sh  # Mount wait-for-it script into the backend service
-    depends_on:
-      - database
-
+      DATABASE_URL: "postgresql://postgres:THD111@database/student_db"  # Adjust the URL according to your database configuration
   database:
     image: postgres:latest
     environment:
