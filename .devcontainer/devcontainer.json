@@ -1,11 +1,10 @@
 {
   "name": "Docker Compose Dev Container",
-  "dockerFile": "Dockerfile",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
   "extensions": [],
   "forwardPorts": [],
-  "postCreateCommand": "docker-compose up --build",
+  "postCreateCommand": "sudo apk update && sudo apk upgrade && sudo apk add --no-cache bash curl && curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose up --build",
   "remoteUser": "root"
 }
