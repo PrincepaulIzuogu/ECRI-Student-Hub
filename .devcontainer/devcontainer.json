@@ -1,9 +1,10 @@
 {
-  "name": "My Dev Container",
+  "name": "Docker Compose Dev Container",
   "dockerFile": "Dockerfile",
-  "extensions": ["dbaeumer.vscode-eslint"],
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
-  "postCreateCommand": "docker-compose up --build"
+  "extensions": [],
+  "forwardPorts": [],
+  "postCreateCommand": "sh -c 'docker-compose --version && docker-compose up --build'"
 }
