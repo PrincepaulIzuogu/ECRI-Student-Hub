@@ -6,5 +6,6 @@
   },
   "extensions": [],
   "forwardPorts": [],
-  "postCreateCommand": "sh -c 'docker-compose --version && docker-compose up --build'"
+  "postCreateCommand": "docker-compose up --build",
+  "remoteUser": "root"
 }
