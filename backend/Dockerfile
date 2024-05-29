@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy wait-for-it script
 COPY ./wait-for-it.sh .
+RUN chmod +x wait-for-it.sh
 
 # Copy the rest of the application
 COPY . .
