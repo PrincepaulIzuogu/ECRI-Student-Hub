@@ -1,0 +1,55 @@
+.authentication-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    perspective: 1000px; /* Add perspective for 3D effect */
+  }
+  
+
+  
+  .authentication-left {
+    text-align: left;
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+  
+  .authentication-box {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .authentication-box button {
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .authentication-box button:hover {
+    background-color: darkblue;
+  }
+
+  .authentication-box input {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    height: 40px; /* Adjusted height */
+    margin-top: 20px;
+  }
+  
+  .authentication-box button {
+    display: block;
+    width: 100%;
+  }
+
+  
+  

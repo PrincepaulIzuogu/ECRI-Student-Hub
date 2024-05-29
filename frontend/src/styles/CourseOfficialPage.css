@@ -1,0 +1,17 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .course-official-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .course-official-content {
+    margin-top: 20px;
+  }
+  
+  
