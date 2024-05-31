@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,6 +21,9 @@ const SignInForm = () => {
       const userData = response.data;
       const { courseOfStudy, degreeProgram } = userData;
       const courseOfStudySlug = courseOfStudy.toLowerCase().replace(/\s+/g, '-');
+
+      // Store user data in local storage
+      localStorage.setItem('userData', JSON.stringify(userData));
 
       if (degreeProgram === 'Bachelor') {
         navigate(`/bachelor/${courseOfStudySlug}`);
