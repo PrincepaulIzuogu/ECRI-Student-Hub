@@ -12,7 +12,8 @@ import Logout from './components/Logout';
 import BachelorCoursePage from './components/BachelorCoursePage';
 import MasterCoursePage from './components/MasterCoursePage';
 import SemesterPage from './components/SemesterPage';
-import CourseOfficialPage from './components/CourseOfficialPage'; // Import CourseOfficialPage component
+import CourseOfficialPage from './components/CourseOfficialPage';
+import UserProfilePage from './components/UserProfilePage'; // Import the new component
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -23,6 +24,7 @@ const App = () => {
 
   const handleSignIn = async (formData) => {
     console.log('Sign in:', formData);
+    setUser(formData); // Set the user data upon successful sign-in
   };
 
   return (
@@ -38,11 +40,12 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
           <Route path="/authentication" element={<Authentication />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/bachelor/:course" element={<BachelorCoursePage />} />
-          <Route path="/master/:course" element={<MasterCoursePage />} />
+          <Route path="/bachelor/:course" element={<BachelorCoursePage user={user} />} /> {/* Pass user data to BachelorCoursePage */}
+          <Route path="/master/:course" element={<MasterCoursePage user={user} />} /> {/* Pass user data to MasterCoursePage */}
           <Route path="/bachelor/:course/:semester" element={<SemesterPage />} />
           <Route path="/master/:course/:semester" element={<SemesterPage />} />
-          <Route path="/:degree/:course/:semester/:courseName" element={<CourseOfficialPage />} /> {/* Add route for course official page */}
+          <Route path="/:degree/:course/:semester/:courseName" element={<CourseOfficialPage />} />
+          <Route path="/my-profile" element={<UserProfilePage user={user} />} /> {/* Pass user data to UserProfilePage */}
         </Routes>
       </div>
     </Router>
