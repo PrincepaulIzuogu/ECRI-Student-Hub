@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FaBars, FaHome, FaUser, FaBell, FaEnvelope, FaCog, FaCalendarAlt, FaAddressBook, FaVideo, FaUserPlus, FaComments } from 'react-icons/fa'; // Importing FontAwesome icons
 import DegreeWelcomeMessage from './DegreeWelcomeMessage';
@@ -9,21 +9,34 @@ const BachelorCoursePage = () => {
   const { course } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dateTime, setDateTime] = useState(new Date());
+  const [userData, setUserData] = useState(null);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  useEffect(() => {
+    // Retrieve user data from local storage when the component mounts
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
   // Update time every second
-  setInterval(() => {
-    setDateTime(new Date());
-  }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="bachelor-course-page">
       <div className="top-nav">
         <div className="welcome-message">
-          <DegreeWelcomeMessage degreeProgram="Bachelor" courseOfStudy={course} />
+          {/* Displaying welcome message with user data */}
+          {userData && <DegreeWelcomeMessage degreeProgram={userData.degreeProgram} courseOfStudy={course} />}
         </div>
         <div className="nav-icons">
           <Link to="/" className="nav-icon"><FaHome /></Link>
@@ -103,3 +116,4 @@ const BachelorCoursePage = () => {
 };
 
 export default BachelorCoursePage;
+
