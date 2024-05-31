@@ -237,8 +237,12 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
         "username": db_user.username,
         "email": db_user.email,
         "courseOfStudy": db_user.courseOfStudy,
-        "degreeProgram": db_user.degreeProgram
+        "degreeProgram": db_user.degreeProgram,
+        "firstName": db_user.firstName,
+        "lastName": db_user.lastName,
+        "matriculationNumber": db_user.matriculationNumber
     }
+
 
 # API endpoint to send token for password reset
 @app.post("/send-token/")
