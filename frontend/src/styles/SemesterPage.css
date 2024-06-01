@@ -1,0 +1,38 @@
+.semester-page {
+  background-color: #F0ECE2; /* Nude color */
+  padding: 20px;
+  min-height: 100vh; /* Ensure it covers the full height of the viewport */
+}
+
+
+
+.courses-buttons {
+  display: flex;
+  flex-direction: column; /* Change to column layout */
+  align-items: center; /* Center align items */
+  margin-top: 100px;
+  text-decoration: none !important;
+}
+
+.courses-buttons button {
+  background-color: #4CAF50; /* Green */
+  color: white !important; /* Ensure white color */
+  padding: 15px 40px; /* Increase horizontal padding */
+  text-align: center;
+  text-decoration: none !important; /* Remove underline */
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 20px; /* Add margin bottom for spacing */
+  border-radius: 5px;
+  width: 800px; /* Set width to make it long horizontally */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.courses-buttons button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.link-span a {
+  text-decoration: none;
+  color: white;
+}
