@@ -11,7 +11,7 @@
     "mounts": [
         "source=project-database,target=/var/lib/postgresql/data,type=volume"
     ],
-    "forwardPorts": [8000],
+    "forwardPorts": [],
     "remoteEnv": {
         "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
     },
