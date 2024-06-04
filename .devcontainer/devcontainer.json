@@ -10,7 +10,7 @@
         "ms-python.python",
         "ms-azuretools.vscode-docker"
     ],
-    "remoteUser": "vscode",
+    "remoteUser": "root",
     "mounts": [
         "source=project-database,target=/var/lib/postgresql/data,type=volume"
     ],
