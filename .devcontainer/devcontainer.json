@@ -12,12 +12,11 @@
     ],
     "remoteUser": "root",
     "mounts": [
-        "source=project-database,target=/var/lib/postgresql/data,type=volume"
+        "source=ecri-student-hub_project-database,target=/var/lib/postgresql/data,type=volume"
     ],
     "forwardPorts": [8000, 3000, 5432],
     "remoteEnv": {
         "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
     },
-    "shutdownAction": "stopCompose",
-    "postCreateCommand": "apt-get update && apt-get install -y curl"
+    "shutdownAction": "stopCompose"
 }
