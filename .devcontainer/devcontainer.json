@@ -2,7 +2,7 @@
     "name": "ECRI Student Hub",
     "dockerComposeFile": ["../docker-compose.yml"],
     "service": "backend",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/usr/src/app",
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
     },
