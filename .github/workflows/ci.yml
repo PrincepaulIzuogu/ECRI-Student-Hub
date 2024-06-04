@@ -30,11 +30,11 @@ jobs:
       with:
         context: ./backend
         push: true
-        tags: your-dockerhub-username/backend:latest
+        tags: princepaul/backend:latest
 
     - name: Build and push frontend Docker image
       uses: docker/build-push-action@v2
       with:
         context: ./frontend
         push: true
-        tags: your-dockerhub-username/frontend:latest
+        tags: princepaul/frontend:latest
