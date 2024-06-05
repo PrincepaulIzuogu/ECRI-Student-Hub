@@ -20,8 +20,8 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: princepaul.izuogu@stud.th-deg.de
-      PGADMIN_DEFAULT_PASSWORD: THD111
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8080:80"
     depends_on:
