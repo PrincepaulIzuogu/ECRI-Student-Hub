@@ -11,11 +11,11 @@
     "mounts": [
         "source=ecri-student-hub_project-database,target=/var/lib/postgresql/data,type=volume"
     ],
-    "forwardPorts": [],
+    "forwardPorts": [8000, 3000, 5432],
     "remoteEnv": {
         "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
     },
     "shutdownAction": "stopCompose",
     "initializeCommand": "service docker start",
-    "postCreateCommand": "docker-compose up --build"
+    "postCreateCommand": "sleep 10 && docker-compose up --build"
 }
