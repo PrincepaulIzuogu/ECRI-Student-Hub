@@ -1,8 +1,5 @@
 {
     "name": "ECRI Student Hub",
-    "dockerComposeFile": ["../docker-compose.yml"],
-    "service": "backend",
-    "workspaceFolder": "/app",
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
     },
@@ -14,9 +11,11 @@
     "mounts": [
         "source=ecri-student-hub_project-database,target=/var/lib/postgresql/data,type=volume"
     ],
-    "forwardPorts": [8000, 3000, 5432],
+    "forwardPorts": [],
     "remoteEnv": {
         "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
     },
-    "shutdownAction": "stopCompose"
+    "shutdownAction": "stopCompose",
+    "initializeCommand": "apt-get update && apt-get install -y docker-compose",
+    "postCreateCommand": "docker-compose up --build"
 }
