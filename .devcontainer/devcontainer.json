@@ -16,6 +16,6 @@
         "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
     },
     "shutdownAction": "stopCompose",
-    "initializeCommand": "apt-get update && apt-get install -y docker-compose",
+    "initializeCommand": "service docker start",
     "postCreateCommand": "docker-compose up --build"
 }
