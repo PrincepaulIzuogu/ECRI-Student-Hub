@@ -46,9 +46,10 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_ADDRESS: '0.0.0.0'
       PGADMIN_CONFIG_SERVER_MODE: 'True'
-      PGADMIN_CONFIG_CSRF_PROTECTION: 'False'
     ports:
       - "8080:80"
+    volumes:
+      - ./config_local.py:/pgadmin4/config_local.py
     depends_on:
       - database
 
