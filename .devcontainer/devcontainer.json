@@ -16,6 +16,5 @@
         "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
     },
     "shutdownAction": "stopCompose",
-    "initializeCommand": "/bin/sh -c 'service docker start && while ! docker info >/dev/null 2>&1; do sleep 1; done'",
-    "postCreateCommand": "docker-compose up --build"
+    "postCreateCommand": "apt-get update && apt-get install -y curl && curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose up --build"
 }
