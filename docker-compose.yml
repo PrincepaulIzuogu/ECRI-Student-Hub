@@ -4,9 +4,9 @@ services:
   database:
     image: postgres:13.3
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: THD111
-      POSTGRES_DB: student_db
+      POSTGRES_USER: ${POSTGRES_USER}  # Reference secret for user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Reference secret for password
+      POSTGRES_DB: ${POSTGRES_DB}  # Reference secret for database name
     ports:
       - "5432:5432"
     volumes:
