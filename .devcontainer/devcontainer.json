@@ -1,20 +1,10 @@
 {
-    "name": "ECRI Student Hub",
-    "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-    },
-    "extensions": [
-        "ms-python.python",
-        "ms-azuretools.vscode-docker"
-    ],
-    "remoteUser": "root",
-    "mounts": [
-        "source=ecri-student-hub_project-database,target=/var/lib/postgresql/data,type=volume"
-    ],
-    "forwardPorts": [],
-    "remoteEnv": {
-        "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
-    },
-    "shutdownAction": "stopCompose",
-    "postCreateCommand": "apt-get update && apt-get install -y curl && curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && sudo service docker start && docker-compose up --build"
+  "name": "Docker Compose Dev Container",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [],
+  "forwardPorts": [],
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends bash curl && curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose up --build",
+  "remoteUser": "root"
 }
