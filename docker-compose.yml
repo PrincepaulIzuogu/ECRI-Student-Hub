@@ -4,9 +4,9 @@ services:
   database:
     image: postgres:13.3
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}  # Reference secret for user
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Reference secret for password
-      POSTGRES_DB: ${POSTGRES_DB}  # Reference secret for database name
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -38,6 +38,16 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
 
 volumes:
   db_data:
