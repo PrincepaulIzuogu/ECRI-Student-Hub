@@ -14,24 +14,28 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Azure Container Registry
-        run: echo ${{ secrets.ACR_PASSWORD }} | docker login ecristudenthubregistry.azurecr.io -u ecristudenthubregistry --password-stdin
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ecristudenthubregistry
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build and push frontend Docker image
         working-directory: ./frontend
         run: |
-          docker build -t ecristudenthubregistry.azurecr.io/frontend:latest .
-          docker push ecristudenthubregistry.azurecr.io/frontend:latest
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest .
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
 
       - name: Build and push backend Docker image
         working-directory: ./backend
         run: |
-          docker build -t ecristudenthubregistry.azurecr.io/backend:latest .
-          docker push ecristudenthubregistry.azurecr.io/backend:latest
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest .
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
 
       - name: Update Docker Compose file
         run: |
-          sed -i "s|image:.*backend.*|image: ecristudenthubregistry.azurecr.io/backend:latest|g" docker-compose.yml
-          sed -i "s|image:.*frontend.*|image: ecristudenthubregistry.azurecr.io/frontend:latest|g" docker-compose.yml
+          sed -i "s|image:.*backend.*|image: ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest|g" docker-compose.yml
+          sed -i "s|image:.*frontend.*|image: ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest|g" docker-compose.yml
 
       - name: Deploy Docker Compose
         run: |
