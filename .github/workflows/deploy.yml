@@ -15,7 +15,7 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-          docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+          echo '{"auths":{"${{ secrets.ACR_LOGIN_SERVER }}":{"username":"${{ secrets.ACR_USERNAME }}","password":"${{ secrets.ACR_PASSWORD }}","auth":"$(echo -n ${{ secrets.ACR_USERNAME }}:${{ secrets.ACR_PASSWORD }} | base64)"}}}' > ~/docker/config.json
 
       - name: Build and push frontend Docker image
         working-directory: ./frontend
