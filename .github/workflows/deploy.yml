@@ -22,7 +22,7 @@ jobs:
         working-directory: ./frontend
         run: |
           docker build -t frontend:latest .
-      
+
       - name: Tag and push frontend Docker image
         run: |
           docker tag frontend:latest "${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest"
