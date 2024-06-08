@@ -15,14 +15,14 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-          mkdir -p ~/docker
-          echo '{"auths":{"${{ secrets.ACR_LOGIN_SERVER }}":{"username":"${{ secrets.ACR_USERNAME }}","password":"${{ secrets.ACR_PASSWORD }}","auth":"$(echo -n ${{ secrets.ACR_USERNAME }}:${{ secrets.ACR_PASSWORD }} | base64)"}}}' > ~/docker/config.json
+          mkdir -p ~/.docker
+          echo '{"auths":{"${{ secrets.ACR_LOGIN_SERVER }}":{"username":"${{ secrets.ACR_USERNAME }}","password":"${{ secrets.ACR_PASSWORD }}","auth":"$(echo -n ${{ secrets.ACR_USERNAME }}:${{ secrets.ACR_PASSWORD }} | base64)"}}}' > ~/.docker/config.json
 
       - name: Build frontend Docker image
         working-directory: ./frontend
         run: |
           docker build -t frontend:latest .
-      
+
       - name: Tag and push frontend Docker image
         run: |
           docker tag frontend:latest ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
