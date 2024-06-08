@@ -64,19 +64,12 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           docker-compose --env-file .env up -d
-          echo "Waiting for database to start..."
-          sleep 10
-
-      - name: Wait for backend container to start
-        run: |
-          echo "Waiting for backend container to start..."
-          sleep 10
 
       - name: Get backend container logs
+        if: failure()
         run: |
           BACKEND_CONTAINER=$(docker ps -qf "name=backend")
           if [ -n "$BACKEND_CONTAINER" ]; then
-            echo "Backend container ID: $BACKEND_CONTAINER"
             docker logs $BACKEND_CONTAINER
           else
             echo "No backend container found"
