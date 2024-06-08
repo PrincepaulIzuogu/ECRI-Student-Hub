@@ -16,7 +16,7 @@ jobs:
       - name: Log in to Azure Container Registry and generate Docker config
         run: |
           mkdir -p ~/.docker
-          echo "{\"auths\":{\"ecristudenthubregistry.azurecr.io\":{\"username\":\"${{ secrets.ACR_USERNAME }}\",\"password\":\"${{ secrets.ACR_PASSWORD }}\",\"email\":\"<your-email@example.com>\",\"auth\":\"$(echo -n ${{ secrets.ACR_USERNAME }}:${{ secrets.ACR_PASSWORD }} | base64)\"}}}" > ~/.docker/config.json
+          echo "{\"auths\":{\"ecristudenthubregistry.azurecr.io\":{\"username\":\"${{ secrets.ACR_USERNAME }}\",\"password\":\"${{ secrets.ACR_PASSWORD }}\",\"email\":\"princepaul.izuogu@stud.th-deg.de\",\"auth\":\"$(echo -n ${{ secrets.ACR_USERNAME }}:${{ secrets.ACR_PASSWORD }} | base64)\"}}}" > ~/.docker/config.json
 
       - name: Build frontend Docker image
         working-directory: ./frontend
