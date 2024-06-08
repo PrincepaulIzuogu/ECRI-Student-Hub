@@ -42,12 +42,12 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" >> .env
-          echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "POSTGRES_USER=postgres" >> .env
+          echo "POSTGRES_PASSWORD=THD111" >> .env
+          echo "POSTGRES_DB=student_db" >> .env
+          echo "PGADMIN_DEFAULT_EMAIL=princepaul.izuogu@stud.th-deg.de" >> .env
+          echo "PGADMIN_DEFAULT_PASSWORD=THD111" >> .env
+          echo "DATABASE_URL=postgresql://postgres:THD111@database:5432/student_db" >> .env
 
       - name: Update Docker Compose file
         run: |
@@ -55,13 +55,6 @@ jobs:
           sed -i "s|image:.*frontend.*|image: ecristudenthubregistry.azurecr.io/frontend:latest|g" docker-compose.yml
 
       - name: Deploy Docker Compose
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          PGADMIN_DEFAULT_EMAIL: ${{ secrets.PGADMIN_DEFAULT_EMAIL }}
-          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           docker-compose --env-file .env up -d
 
