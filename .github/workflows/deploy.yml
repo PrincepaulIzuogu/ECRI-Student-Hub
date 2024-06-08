@@ -15,8 +15,7 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-          mkdir -p ~/docker
-          echo '{"auths":{"${{ secrets.ACR_LOGIN_SERVER }}":{"username":"${{ secrets.ACR_USERNAME }}","password":"${{ secrets.ACR_PASSWORD }}","auth":"$(echo -n ${{ secrets.ACR_USERNAME }}:${{ secrets.ACR_PASSWORD }} | base64)"}}}' > ~/docker/config.json
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
 
       - name: Build frontend Docker image
         working-directory: ./frontend
@@ -25,8 +24,8 @@ jobs:
 
       - name: Tag and push frontend Docker image
         run: |
-          docker tag frontend:latest "${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest"
-          docker push "${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest"
+          docker tag frontend:latest ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
 
       - name: Build backend Docker image
         working-directory: ./backend
@@ -35,8 +34,8 @@ jobs:
 
       - name: Tag and push backend Docker image
         run: |
-          docker tag backend:latest "${{ secrets.ACR_LOGIN_SERVER }}/backend:latest"
-          docker push "${{ secrets.ACR_LOGIN_SERVER }}/backend:latest"
+          docker tag backend:latest ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
 
       - name: Update Docker Compose file
         run: |
