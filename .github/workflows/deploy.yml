@@ -25,8 +25,8 @@ jobs:
       
       - name: Tag and push frontend Docker image
         run: |
-          docker tag frontend:latest "${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest"
-          docker push "${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest"
+          docker tag frontend:latest ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
 
       - name: Build backend Docker image
         working-directory: ./backend
@@ -35,8 +35,8 @@ jobs:
 
       - name: Tag and push backend Docker image
         run: |
-          docker tag backend:latest "${{ secrets.ACR_LOGIN_SERVER }}/backend:latest"
-          docker push "${{ secrets.ACR_LOGIN_SERVER }}/backend:latest"
+          docker tag backend:latest ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
 
       - name: Update Docker Compose file
         run: |
