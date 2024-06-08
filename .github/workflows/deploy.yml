@@ -69,4 +69,8 @@ jobs:
         if: failure()
         run: |
           BACKEND_CONTAINER=$(docker ps -qf "name=backend")
-          docker logs $BACKEND_CONTAINER
+          if [ -n "$BACKEND_CONTAINER" ]; then
+            docker logs $BACKEND_CONTAINER
+          else
+            echo "No backend container found"
+          fi
