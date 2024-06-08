@@ -65,12 +65,7 @@ jobs:
         run: |
           docker-compose --env-file .env up -d
 
-      - name: Get backend container logs
+      - name: Get all container logs
         if: failure()
         run: |
-          BACKEND_CONTAINER=$(docker ps -qf "name=backend")
-          if [ -n "$BACKEND_CONTAINER" ]; then
-            docker logs $BACKEND_CONTAINER
-          else
-            echo "No backend container found"
-          fi
+          docker ps -aq | xargs -n 1 -I {} docker logs {}
