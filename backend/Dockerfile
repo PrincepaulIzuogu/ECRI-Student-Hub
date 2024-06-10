@@ -1,5 +1,3 @@
-# Dockerfile
-
 # Use Python image as base
 FROM python:3.9-slim
 
@@ -12,18 +10,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set the working directory
 WORKDIR /app
 
-# Define Python dependencies inline and install them
-RUN pip install --no-cache-dir \
-    fastapi==0.110.1 \
-    pydantic==2.6.4 \
-    bcrypt==4.1.3 \
-    SQLAlchemy==2.0.29 \
-    psycopg2-binary==2.9.9 \
-    uvicorn==0.29.0 \
-    python-multipart==0.0.9 \
-    dnspython==2.6.1 \
-    email-validator==2.1.1 \
-    pyjwt==2.8.0
+# Copy and install dependencies
+COPY ./backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+
 
 # Copy the rest of the application
 COPY . .
