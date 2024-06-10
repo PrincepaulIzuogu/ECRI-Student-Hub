@@ -8,13 +8,13 @@ WORKDIR /app
 RUN npm cache clean --force
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY ./frontend/package*.json ./
 
 # Install dependencies with verbose output
 RUN npm install --verbose
 
 # Copy the rest of the application
-COPY . .
+COPY ./frontend .
 
 # Expose port 3000
 EXPOSE 3000
