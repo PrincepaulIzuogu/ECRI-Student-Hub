@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   database:
-    image: postgres:13.3
+    image: ecristudenthubacr.azurecr.io/postgres:13.3
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -18,7 +18,7 @@ services:
       retries: 5
 
   pgadmin:
-    image: dpage/pgadmin4:6.16
+    image: ecristudenthubacr.azurecr.io/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -28,7 +28,7 @@ services:
       - database
 
   backend:
-    build: ./backend
+    image: ecristudenthubacr.azurecr.io/backend:latest
     ports:
       - "8000:8000"
     depends_on:
@@ -39,7 +39,7 @@ services:
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   frontend:
-    build: ./frontend
+    image: ecristudenthubacr.azurecr.io/frontend:latest
     ports:
       - "3000:3000"
     depends_on:
