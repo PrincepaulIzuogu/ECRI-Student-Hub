@@ -86,9 +86,9 @@ const SettingsPage = () => {
     if (!userData) return "/";
     const { degreeProgram } = userData;
     if (degreeProgram.toLowerCase().includes('bachelor')) {
-      return `/bachelor/${course}`;
+      return `/bachelor/${userData.courseOfStudy}`;
     } else if (degreeProgram.toLowerCase().includes('master')) {
-      return `/master/${course}`;
+      return `/master/${userData.courseOfStudy}`;
     }
     return "/";
   };
@@ -101,7 +101,7 @@ const SettingsPage = () => {
     <div className="bachelor-course-page">
       <div className="top-nav">
         <div className="welcome-message">
-          {userData && <DegreeWelcomeMessage degreeProgram={userData.degreeProgram} courseOfStudy={course} />}
+          {userData && <DegreeWelcomeMessage degreeProgram={userData.degreeProgram} courseOfStudy={userData.courseOfStudy} />}
         </div>
         <div className="nav-icons">
           <Link to={getHomeLink()} className="nav-icon"><FaHome /></Link>
