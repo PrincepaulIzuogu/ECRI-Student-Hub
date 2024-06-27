@@ -41,6 +41,6 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'ecristudenthubapp'
-        slot-name: 'backend'  # Use a slot name for backend
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd69f58df2024a6e909874cbd58f4bc7 }}
+        slot-name: 'backend'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_Backend }}  # Update this secret with the correct publish profile
         images: 'ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/backend:${{ github.sha }}'
