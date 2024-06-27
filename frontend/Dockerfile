@@ -1,4 +1,4 @@
-# Use node image as base
+# Use node image as the base
 FROM node:16-slim
 
 # Set the working directory
