@@ -1,6 +1,7 @@
+# .github/workflows/main_ecristudenthubapp.yml
+
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
-# .github/workflows/main_ecristudenthubapp.yml
 
 name: Build and deploy container app to Azure Web App - ecristudenthubapp
 
@@ -27,19 +28,12 @@ jobs:
         username: ${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}
         password: ${{ secrets.AzureAppService_ContainerPassword_d487bc7b20e74a8eb1e30d6603b1d492 }}
 
-    - name: Build and push backend container image to registry
+    - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
         tags: ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/backend:${{ github.sha }}
         file: ./backend/Dockerfile
-
-    - name: Build and push frontend container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/frontend:${{ github.sha }}
-        file: ./frontend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,6 +50,4 @@ jobs:
         app-name: 'ecristudenthubapp'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd69f58df2024a6e909874cbd58f4bc7 }}
-        images: |
-          ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/backend:${{ github.sha }}
-          ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/frontend:${{ github.sha }}
+        images: 'ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/backend:${{ github.sha }}'
