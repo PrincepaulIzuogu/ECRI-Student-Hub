@@ -35,7 +35,7 @@ app.add_middleware(
 app.mount("/profile_pics", StaticFiles(directory="profile_pics"), name="profile_pics")
 
 # Set up the PostgreSQL database engine
-DATABASE_URL = "postgresql://postgres:THD111@database:5432/student_db"
+DATABASE_URL = os.getenv('DATABASE_URL')
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
