@@ -52,13 +52,4 @@ jobs:
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd69f58df2024a6e909874cbd58f4bc7 }}
         images: 'ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9a2f5b4de2e0428ab98af9be81b305ef }}/backend:${{ github.sha }}'
 
-    - name: Verify repository contents
-      run: |
-        ls -la
-        ls -la ./docker-compose.yml  # Adjust path if necessary
-
-    - name: Restart Docker Compose Services
-      run: |
-        docker-compose -f ./docker-compose.yml down
-        docker-compose -f ./docker-compose.yml up -d
-      shell: bash
+   
