@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  database:
+  ecristudenthub.postgres.database.azure.com:
     image: ecristudenthubacr.azurecr.io/postgres:13.3
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
