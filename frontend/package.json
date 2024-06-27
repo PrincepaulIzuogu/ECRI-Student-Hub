@@ -6,7 +6,7 @@
     "@daily-co/daily-js": "^0.66.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@stripe/react-stripe-js": "^2.7.1" --legacy-peer-deps,
+    "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^4.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -26,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "install": "npm install --legacy-peer-deps"
   },
   "eslintConfig": {
     "extends": [
