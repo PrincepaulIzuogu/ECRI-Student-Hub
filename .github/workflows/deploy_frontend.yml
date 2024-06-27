@@ -1,4 +1,4 @@
-# .github/workflows/main_ecristudenthubapp.yml
+# .github/workflows/deploy_frontend.yml
 
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
