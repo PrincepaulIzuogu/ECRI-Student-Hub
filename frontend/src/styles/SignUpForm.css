@@ -1,105 +1,239 @@
+/* CSS Reset */
+body {
+  background-color: #f0f0f0; /* Light gray background color */
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+}
+
+/* Base font sizes using CSS variables */
+:root {
+  --base-font-size: 16px;
+  --heading-font-size: 2rem;
+  --subheading-font-size: 1.2rem;
+  --button-font-size: 1rem;
+}
+
+/* Apply base font sizes */
+body {
+  font-size: var(--base-font-size);
+}
+
+.signup-left {
+  font-size: var(--subheading-font-size);
+}
+
+.signup-box h2 {
+  font-size: var(--heading-font-size);
+}
+
+.signup-form input,
+.signup-form button {
+  font-size: var(--base-font-size);
+}
+
+.radio-container label {
+  font-size: var(--base-font-size);
+}
+
+/* Base styles for all screen sizes */
 .signup-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    perspective: 1000px; /* Add perspective for 3D effect */
-  }
-  
-  .signup-container.rotate-out-signup {
-    animation: rotateOutSignUp 0.5s forwards; /* Rotate out animation */
-  }
-  
-  .signup-container.rotate-in-signup {
-    animation: rotateInSignUp 0.5s forwards; /* Rotate in animation */
-  }
-  
-  .signup-left {
-    text-align: left;
-    margin-right: 20px;
-    padding: 20px;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    line-height: 1.5;
-  }
-  
-  .signup-box {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-  }
-  
-  .signup-box h2 {
-    margin-bottom: 20px;
-  }
-  
-  .signup-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .signup-form input {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .signup-form button {
-    padding: 10px;
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .signup-form button:hover {
-    background-color: darkblue;
-  }
-  
-  .signup-links {
-    margin-top: 10px;
-    display: flex;
-    text-align: center;
-  }
-  
-  .signup-links span {
-    margin-right: 5px;
-  }
-  
-  .signup-links a {
-    margin-right: 10px;
-    text-decoration: none;
-    color: blue;
-  }
-  
-  .signup-links a:hover {
-    text-decoration: underline;
-    color: darkblue;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  perspective: 1000px; /* Add perspective for 3D effect */
+}
 
-  .radio-container {
-    margin-bottom: 10px; /* Add margin bottom to create space below the radio buttons */
-  }
-  
-  .radio-container label {
-    display: inline-block; /* Display radio buttons in a horizontal line */
-    margin-right: 50px; /* Add margin right to create space between each radio button */
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
+.signup-container.rotate-out-signup {
+  animation: rotateOutSignUp 0.5s forwards; /* Rotate out animation */
+}
 
-  /* Style for the select dropdown */
+.signup-container.rotate-in-signup {
+  animation: rotateInSignUp 0.5s forwards; /* Rotate in animation */
+}
+
+.signup-left {
+  text-align: left;
+  margin-right: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  line-height: 1.5;
+}
+
+.signup-box {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 70px;
+  background-color: white; /* Background color for the signup box */
+}
+
+.signup-box h2 {
+  margin-bottom: 20px;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-form input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .signup-form select {
   height: 40px; /* Adjust the height as needed */
   margin-bottom: 10px; /* Add margin bottom */
   /* Add any other styles you want for the dropdown */
+}
+
+.signup-form button {
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-form button:hover {
+  background-color: darkblue;
+}
+
+.signup-links {
+  margin-top: 10px;
+  display: flex;
+  text-align: center;
+}
+
+.signup-links span {
+  margin-right: 5px;
+}
+
+.signup-links a {
+  margin-right: 10px;
+  text-decoration: none;
+  color: blue;
+}
+
+.signup-links a:hover {
+  text-decoration: underline;
+  color: darkblue;
+}
+
+.radio-container {
+  display: flex;
+  justify-content: space-between; /* Distribute space between radio buttons */
+  margin-bottom: 10px; /* Add margin bottom to create space below the radio buttons */
+}
+
+.radio-container label {
+  flex: 1;
+  text-align: center;
+  padding: 10px; /* Adjust padding to ensure clickable area remains large */
+}
+
+.error-message {
+  color: red;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+  :root {
+    --base-font-size: 15px;
+    --heading-font-size: 1.8rem;
+    --subheading-font-size: 1.1rem;
+    --button-font-size: 0.95rem;
+  }
+
+  .signup-left {
+    margin-right: 15px;
+  }
+
+  .radio-container label {
+    margin: 0 10px; /* Decrease margin for medium screens */
+  }
+}
+
+@media (max-width: 992px) {
+  :root {
+    --base-font-size: 14px;
+    --heading-font-size: 1.6rem;
+    --subheading-font-size: 1rem;
+    --button-font-size: 0.9rem;
+  }
+
+  .signup-left {
+    display: none; /* Hide the left section */
+  }
+
+  .signup-container {
+    justify-content: center; /* Center content */
+    padding: 20px; /* Add padding to the container */
+  }
+
+  .signup-box {
+    width: 100%; /* Full width for smaller screens */
+    max-width: 400px; /* Set maximum width */
+    background-color: white; /* Ensure background color stays white */
+    padding-top: 40px; /* Add top padding to accommodate the heading */
+    margin-top: 60px; /* Add top margin to center the box vertically */
+    padding-bottom: 20px; /* Add bottom padding */
+  }
+
+  .signup-box h2 {
+    text-align: center; /* Center the heading */
+    margin-top: 0; /* Remove top margin */
+    margin-bottom: 20px; /* Add bottom margin */
+  }
+
+  .radio-container label {
+    margin: 0 8px; /* Further decrease margin for smaller screens */
+    font-size: 0.9rem; /* Decrease font size for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --base-font-size: 13px;
+    --heading-font-size: 1.4rem;
+    --subheading-font-size: 0.9rem;
+    --button-font-size: 0.85rem;
+  }
+
+  .signup-box {
+    padding-top: 50px; /* Increase top padding */
+    margin-top: 80px; /* Increase top margin to center the box more */
+    padding-bottom: 15px; /* Decrease bottom padding */
+  }
+
+  .radio-container label {
+    margin: 0 5px; /* Further decrease margin for smaller screens */
+    font-size: 0.8rem; /* Further decrease font size for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --base-font-size: 12px;
+    --heading-font-size: 1.2rem;
+    --subheading-font-size: 0.8rem;
+    --button-font-size: 0.8rem;
+  }
+
+  .signup-box {
+    padding-top: 60px; /* Further increase top padding */
+    margin-top: 100px; /* Further increase top margin to center the box more */
+    padding-bottom: 10px; /* Further decrease bottom padding */
+  }
+
+  .radio-container label {
+    margin: 0 3px; /* Further decrease margin for smaller screens */
+    font-size: 0.7rem; /* Further decrease font size for smaller screens */
+  }
 }
