@@ -226,7 +226,8 @@
 
   .top-nav {
     padding: 5px 10px; /* Adjust padding */
-  }
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center elements */
 
   .top-nav .nav-icons .nav-icon {
     font-size: 16px; /* Decrease icon size */
@@ -258,6 +259,16 @@
   .top-nav .welcome-message {
     font-size: 12px; /* Decrease font size */
   }
+  .top-nav .welcome-message {
+    order: 2; /* Ensure welcome message is at the top */
+    margin-bottom: 5px; /* Add spacing below the welcome message */
+    font-size: 8px; /* Further decrease font size */
+  }
+
+  .top-nav .nav-icons {
+    order: 1; /* Ensure icons are below the welcome message */
+    margin-right: 0; /* Remove right margin */
+  }
 
   .top-nav .nav-icons .nav-icon {
     font-size: 14px; /* Further decrease icon size */
@@ -266,7 +277,7 @@
   .top-nav .nav-icons {
     display: flex;
     align-items: center;
-    margin-right: 200px;
+    
   }
 
   .navbar {
@@ -301,5 +312,6 @@
    /* Styles when the menu is open */
 .navbar.open {
   margin-top: 200px;
+  width: 50px;
 }
 }
