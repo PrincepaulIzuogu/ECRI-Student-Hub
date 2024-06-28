@@ -187,7 +187,8 @@ body {
     max-width: 400px; /* Set maximum width */
     background-color: white; /* Ensure background color stays white */
     padding-top: 40px; /* Add top padding to accommodate the heading */
-    margin-top: 60px; /* Add top margin to center the box vertically */
+     margin-top: 10px; /* Add top margin to center the box vertically */
+    margin-bottom: 140px;
     padding-bottom: 20px; /* Add bottom padding */
   }
 
