@@ -1,55 +1,150 @@
+/* CSS Reset */
+body {
+  background-color: #f0f0f0; /* Light gray background color */
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+}
+
+/* Base font sizes using CSS variables */
+:root {
+  --base-font-size: 16px;
+  --heading-font-size: 2rem;
+  --subheading-font-size: 1.2rem;
+  --button-font-size: 1rem;
+}
+
+/* Apply base font sizes */
+body {
+  font-size: var(--base-font-size);
+}
+
 .authentication-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    perspective: 1000px; /* Add perspective for 3D effect */
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  perspective: 1000px; /* Add perspective for 3D effect */
+}
 
-  
+.authentication-left {
+  text-align: left;
+  margin-right: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: var(--subheading-font-size);
+  line-height: 1.5;
+}
+
+.authentication-box {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  background-color: white; /* Background color for the authentication box */
+}
+
+.authentication-box h2 {
+  margin-bottom: 20px; /* Add space below the heading */
+  font-size: var(--heading-font-size);
+}
+
+.authentication-box input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  height: 40px; /* Adjusted height */
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: var(--base-font-size);
+}
+
+.authentication-box button {
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: var(--button-font-size);
+  width: 100%; /* Full width button */
+}
+
+.authentication-box button:hover {
+  background-color: darkblue;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+  :root {
+    --base-font-size: 15px;
+    --heading-font-size: 1.8rem;
+    --subheading-font-size: 1.1rem;
+    --button-font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 992px) {
+  :root {
+    --base-font-size: 14px;
+    --heading-font-size: 1.6rem;
+    --subheading-font-size: 1rem;
+    --button-font-size: 0.9rem;
+  }
+
   .authentication-left {
-    text-align: left;
-    margin-right: 20px;
-    padding: 20px;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    line-height: 1.5;
+    display: none; /* Hide the left section */
   }
-  
+
+  .authentication-container {
+    justify-content: center; /* Center content */
+    padding: 20px; /* Add padding to the container */
+  }
+
   .authentication-box {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-  }
-  
-  .authentication-box button {
-    padding: 10px;
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    cursor: pointer;
+    width: 100%; /* Full width for smaller screens */
+    max-width: 400px; /* Set maximum width */
+    background-color: white; /* Ensure background color stays white */
+    padding-top: 40px; /* Add top padding to accommodate the heading */
+    margin-top: 60px; /* Add top margin to center the box vertically */
+    padding-bottom: 20px; /* Add bottom padding */
   }
 
-  .authentication-box button:hover {
-    background-color: darkblue;
+  .authentication-box h2 {
+    text-align: center; /* Center the heading */
+    margin-top: 0; /* Remove top margin */
+    margin-bottom: 20px; /* Add bottom margin */
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --base-font-size: 13px;
+    --heading-font-size: 1.4rem;
+    --subheading-font-size: 0.9rem;
+    --button-font-size: 0.85rem;
   }
 
-  .authentication-box input {
-    width: calc(100% - 20px);
-    margin-bottom: 10px;
-    height: 40px; /* Adjusted height */
-    margin-top: 20px;
+  .authentication-box {
+    padding-top: 50px; /* Increase top padding */
+    margin-top: 80px; /* Increase top margin to center the box more */
+    padding-bottom: 15px; /* Decrease bottom padding */
   }
-  
-  .authentication-box button {
-    display: block;
-    width: 100%;
+}
+
+@media (max-width: 576px) {
+  :root {
+    --base-font-size: 12px;
+    --heading-font-size: 1.2rem;
+    --subheading-font-size: 0.8rem;
+    --button-font-size: 0.8rem;
   }
 
-  
-  
+  .authentication-box {
+    padding-top: 60px; /* Further increase top padding */
+    margin-top: -50px; /* Further increase top margin to center the box more */
+    padding-bottom: 10px; /* Further decrease bottom padding */
+  }
+}
