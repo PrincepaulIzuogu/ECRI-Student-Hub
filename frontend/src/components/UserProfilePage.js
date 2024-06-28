@@ -26,7 +26,7 @@ const UserProfilePage = () => {
       formData.append('email', userData.email); // Include the email of the current user
 
       try {
-        const response = await axios.post('http://localhost:8000/upload-profile-picture/', formData);
+        const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/upload-profile-picture/', formData);
 
         if (response.data.file_path) {
           const updatedUserData = { ...userData, profile_picture: response.data.file_path };
@@ -88,7 +88,7 @@ const UserProfilePage = () => {
       <div className="profile-container">
         <div className="profile-picture-container">
           {userData && userData.profile_picture ? (
-            <img src={`http://localhost:8000/${userData.profile_picture}`} alt="Profile" />
+            <img src={`https://ecristudenthub-backend.azurewebsites.net/${userData.profile_picture}`} alt="Profile" />
           ) : (
             <>
               <FaUserCircle className="default-profile-icon" />
