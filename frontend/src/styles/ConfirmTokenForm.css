@@ -126,6 +126,8 @@ body {
 
   .confirm-token-container {
     padding: 8px; /* Further adjust padding */
+    width: 90%;
+    margin-top: 160px;
   }
 
   .confirm-token-container h2 {
