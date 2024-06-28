@@ -261,8 +261,12 @@
 
   .top-nav .nav-icons .nav-icon {
     font-size: 14px; /* Further decrease icon size */
-    margin-right: -100px;
-    margin-left: 300px;
+  }
+
+  .top-nav .nav-icons {
+    display: flex;
+    align-items: center;
+    margin-right: 200px;
   }
 
   .navbar {
@@ -288,9 +292,14 @@
     
   }
 
+  .action-buttons {
+  
+  margin-top: 100px; /* Adjust top margin */
+}
+
+
    /* Styles when the menu is open */
 .navbar.open {
-  margin-top: 1000px;
-  width: 40px;
+  margin-top: 200px;
 }
 }
