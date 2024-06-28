@@ -59,7 +59,7 @@ const SettingsPage = () => {
         formData.append('file', profilePicture);
       }
 
-      const userDataUpdateResponse = await axios.put('http://127.0.0.1:8000/update-profile/', formData, {
+      const userDataUpdateResponse = await axios.put('https://ecristudenthub-backend.azurewebsites.net/update-profile/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
