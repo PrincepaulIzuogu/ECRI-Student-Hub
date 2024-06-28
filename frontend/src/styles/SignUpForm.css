@@ -230,6 +230,7 @@ body {
     padding-top: 60px; /* Further increase top padding */
     margin-top: 100px; /* Further increase top margin to center the box more */
     padding-bottom: 10px; /* Further decrease bottom padding */
+    margin-bottom: 80px;
   }
 
   .radio-container label {
