@@ -35,7 +35,7 @@ const CreateMeeting = () => {
     }
 
     try {
-      const checkResponse = await axios.post('http://127.0.0.1:8000/api/check-meeting-name', {
+      const checkResponse = await axios.post('https://ecristudenthub-backend.azurewebsites.net/api/check-meeting-name', {
         name: meetingName
       });
 
@@ -45,7 +45,7 @@ const CreateMeeting = () => {
         return;
       }
 
-      const response = await axios.post('http://127.0.0.1:8000/api/create-meeting', {
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/api/create-meeting', {
         name: meetingName,
         privacy: 'public',
         email: userData.email // Pass email instead of user_id
@@ -68,7 +68,7 @@ const CreateMeeting = () => {
       formData.append('email', userData.email); // Include the email of the current user
 
       try {
-        const response = await axios.post('http://localhost:8000/upload-profile-picture/', formData);
+        const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/upload-profile-picture/', formData);
 
         if (response.data.file_path) {
           const updatedUserData = { ...userData, profile_picture: response.data.file_path };
