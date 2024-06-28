@@ -24,7 +24,7 @@ const CourseOfficialPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/bachelor-find-mentor/`, {
+        const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/bachelor-find-mentor/`, {
           params: {
             degreeProgram: degree,
             courseOfStudy: course,
@@ -58,7 +58,7 @@ const CourseOfficialPage = () => {
     if (userData) {
       const checkPaidMentee = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/check-paid-mentee/${encodeURIComponent(userData.email)}`);
+          const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/check-paid-mentee/${encodeURIComponent(userData.email)}`);
           setIsPaidMentee(response.data.is_paid_mentee);
         } catch (error) {
           console.error('Error checking paid mentee status:', error);
@@ -88,7 +88,7 @@ const CourseOfficialPage = () => {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/create-checkout-session/', {
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/create-checkout-session/', {
         mentor_email: mentorEmail,
       });
       const sessionId = response.data.id;
@@ -107,7 +107,7 @@ const CourseOfficialPage = () => {
         studentEmail: userData.email,
       };
 
-      await axios.post('http://127.0.0.1:8000/save-mentee/', menteeData);
+      await axios.post('https://ecristudenthub-backend.azurewebsites.net/save-mentee/', menteeData);
 
     } catch (error) {
       console.error('Error creating or processing checkout session:', error);
@@ -133,7 +133,7 @@ const CourseOfficialPage = () => {
         mentor_id: mentorId,
       };
 
-      await axios.post('http://127.0.0.1:8000/rate-mentor/', ratingData);
+      await axios.post('https://ecristudenthub-backend.azurewebsites.net/rate-mentor/', ratingData);
 
       const updatedRatings = { ...ratings };
       updatedRatings[mentorId] = [
@@ -185,7 +185,7 @@ const CourseOfficialPage = () => {
             mentors.map(mentor => (
               <li key={mentor.email} className="mentor-item">
                 <div className="mentor-info">
-                  <img className="mentor-profile-pic" src={`http://127.0.0.1:8000/${mentor.profile_picture}`} alt={`${mentor.firstName} ${mentor.lastName}`} /><br />
+                  <img className="mentor-profile-pic" src={`https://ecristudenthub-backend.azurewebsites.net/${mentor.profile_picture}`} alt={`${mentor.firstName} ${mentor.lastName}`} /><br />
                   <div className="mentor-detail"><strong>Name:</strong> {mentor.firstName} {mentor.lastName}</div>
                   <div className="mentor-detail"><strong>Email:</strong> {mentor.email}</div>
                   <div className="mentor-detail"><strong>Grade:</strong> {mentor.grade || 'N/A'}</div>
