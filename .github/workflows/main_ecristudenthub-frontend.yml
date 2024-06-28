@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: ecristudenthubacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_02ab98e987e146c282843c7007f609d9 }}/ecristudenthubacr/frontend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./frontend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
