@@ -33,7 +33,7 @@ const DiscussionForum = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/messages/');
+      const response = await axios.get('https://ecristudenthub-backend.azurewebsites.net/messages/');
       const sortedMessages = response.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
       setMessages(sortedMessages);
     } catch (error) {
@@ -48,7 +48,7 @@ const DiscussionForum = () => {
         sender_email: userData.email,
         content: messageContent,
       };
-      await axios.post('http://127.0.0.1:8000/messages/', newMessage);
+      await axios.post('https://ecristudenthub-backend.azurewebsites.net/messages/', newMessage);
       setMessageContent('');
       fetchMessages();
     } catch (error) {
