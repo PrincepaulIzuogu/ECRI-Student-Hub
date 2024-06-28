@@ -187,18 +187,34 @@
   }
 
 
-/* Media queries for responsive design */
-@media (max-width: 1200px) {
-  :root {
-    --base-font-size: 15px;
-    --heading-font-size: 1.8rem;
-    --subheading-font-size: 1.1rem;
-    --button-font-size: 0.95rem;
-  }
-
- 
+  /* Semester button styling */
+.semester-buttons {
+  display: flex;
+  flex-direction: column; /* Column layout */
+  align-items: center; /* Align items to the right */
+  margin-top: 90px;
+  top: 200px; /* Adjust top position as needed */
+  
 }
 
+.semester-button {
+  background-color: #4CAF50; /* Green */
+  color: white !important;
+  padding: 30px 45px; /* Reduced padding */
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px; /* Reduced margin bottom */
+  border-radius: 5px;
+  width: 500px; /* Reduced width */
+}
+
+.semester-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Media queries for responsive design */
 @media (max-width: 992px) {
   :root {
     --base-font-size: 14px;
@@ -207,75 +223,26 @@
     --button-font-size: 0.9rem;
   }
 
-  .top-nav .welcome-message {
-    font-size: 6px; /* Decrease font size */
+  .top-nav {
+    padding: 5px 10px; /* Adjust padding */
   }
 
   .top-nav .nav-icons .nav-icon {
     font-size: 16px; /* Decrease icon size */
   }
-  /* Add font weight for the bars icon */
-  .bars-icon {
-    font-weight: bold;
-    font-size: 15px;
-    margin-right: 30px;
-    }
 
-  
-}
-
-@media (max-width: 768px) {
-  :root {
-    --base-font-size: 13px;
-    --heading-font-size: 1.4rem;
-    --subheading-font-size: 0.9rem;
-    --button-font-size: 0.85rem;
+  .navbar {
+    top: 50px; /* Adjust based on top nav bar height */
   }
 
-  .top-nav {
-    padding: 5px 10px; /* Adjust padding */
+  .semester-buttons {
+    top: 150px; /* Adjust top position */
+    margin-top: 0; /* Reset margin top */
   }
 
- 
-  .top-nav .nav-icons .nav-icon {
-    font-size: 14px; /* Further decrease icon size */
-  }
-  .top-nav .nav-icons {
-    display: flex;
-    align-items: center;
-    margin-right: 200px;
-    }
-    
-    .top-nav .nav-icons .nav-icon {
-    margin-right: 20px;
-    color: #333;
-    margin: 5px 10px; /* Space between icons */
-    
-    }
-
-    
-
-
-
-  .action-buttons {
-    grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
-    grid-template-rows: repeat(2, 1fr); /* Two rows for smaller screens */
-    grid-gap: 10px; /* Adjust gap between buttons */
-    margin-top: 10px; /* Adjust top margin */
-  }
-
-  .action-button {
+  .semester-button {
+    width: 100%; /* Full width for smaller screens */
     padding: 15px; /* Adjust padding */
-  }
-
-  .action-icon {
-    width: 80px; /* Adjust icon size */
-    height: 80px; /* Adjust icon size */
-    font-size: 40px; /* Adjust font size */
-  }
-
-  .action-label {
-    font-size: 14px; /* Adjust font size */
   }
 }
 
@@ -287,107 +254,28 @@
     --button-font-size: 0.8rem;
   }
 
-  .bachelor-course-page .top-nav .welcome-message {
-    font-size: 4px; /* Adjust welcome message font size */
-    font-weight: 0.6px;
-    margin-left: -5px;
+  .top-nav .welcome-message {
+    font-size: 12px; /* Decrease font size */
   }
-
-  
 
   .top-nav .nav-icons .nav-icon {
-    font-size: 12px; /* Further decrease icon size */
-  }
-
-
-  .menu-icon{
-    margin-left: -190px;
-    margin-right: -20px;
-
+    font-size: 14px; /* Further decrease icon size */
   }
 
   .navbar {
-    background-color: #333;
-    padding: 5px;
-    position: fixed;
-    top: 50px; /* Adjust based on top nav bar height */
-    right: 5px;
-    width: 50px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    }
-    
-    .navbar.open {
-    opacity: 1;
-    visibility: visible;
-    }
-    
-    .navbar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    }
-    
-    .navbar ul li {
-    margin-bottom: 10px;
-    }
-    
-    .navbar ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    transition: color 0.3s ease;
-    }
-    
-    .navbar ul li a
-    {
-    text-decoration: underline;
-    }
-    
-    
-    
-
-  .action-buttons {
-    grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
-    grid-template-rows: repeat(2, 1fr); /* Two rows for smaller screens */
-    grid-gap: 10px; /* Adjust gap between buttons */
-    margin-top: 10px; /* Adjust top margin */
+    top: 40px; /* Adjust based on top nav bar height */
+    right: 10px; /* Adjust position */
+    width: 40px; /* Adjust width */
+    padding: 5px; /* Adjust padding */
   }
 
-  .action-button {
+  .semester-buttons {
+    top: 120px; /* Adjust top position */
+  }
+
+  .semester-button {
+    width: 100%; /* Full width for smaller screens */
     padding: 10px; /* Adjust padding */
+    font-size: 14px; /* Adjust font size */
   }
-
-  .action-icon {
-    width: 60px; /* Adjust icon size */
-    height: 60px; /* Adjust icon size */
-    font-size: 30px; /* Adjust font size */
-  }
-
-  .action-label {
-    font-size: 12px; /* Adjust font size */
-  }
-
-
-
-  /* Styles for the icons inside the links */
-.navbar .nav-icon {
-  margin-right: 10px;
-  font-size: 20px;
-  transition: font-size 0.3s;
-}
-
-
-
-/* Reduce the size of the labels and icons when the menu is open */
-.navbar.open .nav-icon {
-  font-size: 10px;
-}
-
-.navbar.open a {
-  font-size: 8px;
-}
 }
