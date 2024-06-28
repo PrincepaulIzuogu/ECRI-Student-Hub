@@ -145,7 +145,7 @@ const handleChange = (e) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    await axios.post('http://127.0.0.1:8000/mentors/', formData);
+    await axios.post('https://ecristudenthub-backend.azurewebsites.net/mentors/', formData);
     navigate('/dashboard');
   } catch (error) {
     console.error('Error registering mentor:', error);
