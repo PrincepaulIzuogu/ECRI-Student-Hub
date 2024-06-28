@@ -26,7 +26,7 @@ const ResetPasswordForm = () => {
         throw new Error('Password must be a combination of letters and numbers, max 8 characters');
       }
       // Send the password reset request with the email and new password
-      await axios.post('http://127.0.0.1:8000/reset-password/', { email, password });
+      await axios.post('https://ecristudenthub-backend.azurewebsites.net/reset-password/', { email, password });
       // If the request succeeds, redirect to the sign-in page
       navigate('/signin');
     } catch (error) {
