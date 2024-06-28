@@ -1,3 +1,14 @@
+/* CSS Reset */
+
+
+/* Base font sizes using CSS variables */
+:root {
+  --base-font-size: 16px;
+  --heading-font-size: 2rem;
+  --subheading-font-size: 1.2rem;
+  --button-font-size: 1rem;
+}
+
 .bachelor-course-page {
   background-color: #F0ECE2; /* Nude color */
   padding: 20px;
@@ -47,84 +58,54 @@
   right: 20px; /* Distance from the right of the viewport */
   }
   
-  /* Container styling */
-  .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  padding-top: 70px; /* Adjust for fixed top nav bar */
-  }
+   /* Add font weight for the bars icon */
+   .bars-icon {
+    font-weight: bold;
+    font-size: 24px;
+    margin-right: 50px; /* Add margin to separate from nav icons */
+    }
+    .navbar {
+      background-color: #333;
+      padding: 20px;
+      position: fixed;
+      top: 60px; /* Adjust based on top nav bar height */
+      right: 20px;
+      width: 150px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      }
+      
+      .navbar.open {
+        opacity: 1;
+        visibility: visible;
+        }
+        
+        .navbar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        }
+        
+        .navbar ul li {
+        margin-bottom: 10px;
+        }
+        
+        .navbar ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s ease;
+        }
+        
+        .navbar ul li a
+        {
+        text-decoration: underline;
+        }
   
-  /* Navbar container */
-  .navbar {
-  background-color: #333;
-  padding: 20px;
-  position: fixed;
-  top: 60px; /* Adjust based on top nav bar height */
-  right: 20px;
-  width: 150px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  }
   
-  .navbar.open {
-  opacity: 1;
-  visibility: visible;
-  }
-  
-  .navbar ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  }
-  
-  .navbar ul li {
-  margin-bottom: 10px;
-  }
-  
-  .navbar ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.3s ease;
-  }
-  
-  .navbar ul li a
-  {
-  text-decoration: underline;
-  }
-  
-  /* Semester button styling */
-  
-  .semester-buttons {
-  display: flex;
-  flex-direction: column; /* Column layout /
-  align-items: center; /* Align items to the left */
-  position: fixed;
-  top: 100px; /* Adjust top position as needed */
-  margin-left: 150px;
-  }
-  
-  .semester-button {
-  background-color: #4CAF50; /* Green */
-  color: white !important;
-  padding: 20px 40px; /* Reduced padding */
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px; /* Reduced margin bottom */
-  border-radius: 5px;
-  width: 500px; /* Reduced width */
-  }
-  
-  .semester-button
-  {
-  background-color: #45a049; /* Darker green on hover */
-  }
   
   /* Welcome message container styling */
   .degree-welcome-container {
@@ -132,58 +113,62 @@
   margin-top: 10px;
   }
   
-  /* Add font weight for the bars icon */
-  .bars-icon {
-  font-weight: bold;
-  font-size: 24px;
+ 
+
+/* Container styling */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 70px; /* Adjust for fixed top nav bar */
   }
-  
-  /* Action buttons styling */
-  .action-buttons {
+
+
+/* Action buttons styling */
+.action-buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 40px; /* Adjust vertical gap */
-  grid-column-gap: 20px; /* Adjust horizontal gap */
-  justify-content: flex-end; /*Align buttons to the right */
-  align-items: flex-start; /* Align buttons to the top */
-  margin-top: 20px; /* Adjust the top margin as needed */
-  margin-left: 100px;
-  margin-right: 100px;
-  }
-  
-  .action-button {
+  grid-row-gap: 50px; /* Vertical gap between rows */
+  grid-column-gap: 20px; /* Horizontal gap between columns */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin-top: 60px; /* Adjust top margin */
+}
+
+.action-button {
   text-align: center;
-  display: flex; /* Make button container a flex container */
-  flex-direction: column; /* Stack icon and label vertically */
-  align-items: center; /* Center items horizontally */
-  }
-  
-  .action-button
-  .action-button:nth-child(n+3) { /* Select items from the second row onwards */
-  margin-left: 30px; /* Adjust the margin-left to shift them to the right */
-  }
-  
-  .action-button a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Ensure the button takes full width of grid cell */
+}
+
+.action-button a {
   text-decoration: none;
   color: inherit;
-  }
-  
-  .action-icon {
-  width: 100px;
-  height: 100px;
-  font-size: 50px;
+  width: 100%; /* Ensure the anchor takes full width of grid cell */
+}
+
+.action-icon {
+  width: 120px; /* Adjust icon size */
+  height: 120px; /* Adjust icon size */
+  font-size: 50px; /* Adjust font size */
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  }
-  
-  .action-label {
+  background-color: #f0f0f0; /* Light gray background */
+  margin: 0 auto; /* Center the icon */
+}
+
+.action-label {
   margin-top: 10px;
-  font-size: 16px;
-  text-align: center; /* Center the label */
-  }
-  
+  font-size: 16px; /* Adjust font size */
+  text-align: center;
+}
+
+
+
   .notification-badge {
   
   top: 0;
@@ -200,3 +185,209 @@
   .nav-icon {
   text-decoration: none;
   }
+
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+  :root {
+    --base-font-size: 15px;
+    --heading-font-size: 1.8rem;
+    --subheading-font-size: 1.1rem;
+    --button-font-size: 0.95rem;
+  }
+
+ 
+}
+
+@media (max-width: 992px) {
+  :root {
+    --base-font-size: 14px;
+    --heading-font-size: 1.6rem;
+    --subheading-font-size: 1rem;
+    --button-font-size: 0.9rem;
+  }
+
+  .top-nav .welcome-message {
+    font-size: 6px; /* Decrease font size */
+  }
+
+  .top-nav .nav-icons .nav-icon {
+    font-size: 16px; /* Decrease icon size */
+  }
+  /* Add font weight for the bars icon */
+  .bars-icon {
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 30px;
+    }
+
+  
+}
+
+@media (max-width: 768px) {
+  :root {
+    --base-font-size: 13px;
+    --heading-font-size: 1.4rem;
+    --subheading-font-size: 0.9rem;
+    --button-font-size: 0.85rem;
+  }
+
+  .top-nav {
+    padding: 5px 10px; /* Adjust padding */
+  }
+
+ 
+  .top-nav .nav-icons .nav-icon {
+    font-size: 14px; /* Further decrease icon size */
+  }
+  .top-nav .nav-icons {
+    display: flex;
+    align-items: center;
+    margin-right: 200px;
+    }
+    
+    .top-nav .nav-icons .nav-icon {
+    margin-right: 20px;
+    color: #333;
+    margin: 5px 10px; /* Space between icons */
+    
+    }
+
+    
+
+
+
+  .action-buttons {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
+    grid-template-rows: repeat(2, 1fr); /* Two rows for smaller screens */
+    grid-gap: 10px; /* Adjust gap between buttons */
+    margin-top: 10px; /* Adjust top margin */
+  }
+
+  .action-button {
+    padding: 15px; /* Adjust padding */
+  }
+
+  .action-icon {
+    width: 80px; /* Adjust icon size */
+    height: 80px; /* Adjust icon size */
+    font-size: 40px; /* Adjust font size */
+  }
+
+  .action-label {
+    font-size: 14px; /* Adjust font size */
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --base-font-size: 12px;
+    --heading-font-size: 1.2rem;
+    --subheading-font-size: 0.8rem;
+    --button-font-size: 0.8rem;
+  }
+
+  .bachelor-course-page .top-nav .welcome-message {
+    font-size: 4px; /* Adjust welcome message font size */
+    font-weight: 0.6px;
+    margin-left: -5px;
+  }
+
+  
+
+  .top-nav .nav-icons .nav-icon {
+    font-size: 12px; /* Further decrease icon size */
+  }
+
+
+  .menu-icon{
+    margin-left: -190px;
+    margin-right: -20px;
+
+  }
+
+  .navbar {
+    background-color: #333;
+    padding: 5px;
+    position: fixed;
+    top: 50px; /* Adjust based on top nav bar height */
+    right: 5px;
+    width: 50px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    }
+    
+    .navbar.open {
+    opacity: 1;
+    visibility: visible;
+    }
+    
+    .navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    }
+    
+    .navbar ul li {
+    margin-bottom: 10px;
+    }
+    
+    .navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    }
+    
+    .navbar ul li a
+    {
+    text-decoration: underline;
+    }
+    
+    
+    
+
+  .action-buttons {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
+    grid-template-rows: repeat(2, 1fr); /* Two rows for smaller screens */
+    grid-gap: 10px; /* Adjust gap between buttons */
+    margin-top: 10px; /* Adjust top margin */
+  }
+
+  .action-button {
+    padding: 10px; /* Adjust padding */
+  }
+
+  .action-icon {
+    width: 60px; /* Adjust icon size */
+    height: 60px; /* Adjust icon size */
+    font-size: 30px; /* Adjust font size */
+  }
+
+  .action-label {
+    font-size: 12px; /* Adjust font size */
+  }
+
+
+
+  /* Styles for the icons inside the links */
+.navbar .nav-icon {
+  margin-right: 10px;
+  font-size: 20px;
+  transition: font-size 0.3s;
+}
+
+
+
+/* Reduce the size of the labels and icons when the menu is open */
+.navbar.open .nav-icon {
+  font-size: 10px;
+}
+
+.navbar.open a {
+  font-size: 8px;
+}
+}
