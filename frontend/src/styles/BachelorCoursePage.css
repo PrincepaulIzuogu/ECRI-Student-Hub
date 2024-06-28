@@ -262,6 +262,7 @@
   .top-nav .nav-icons .nav-icon {
     font-size: 14px; /* Further decrease icon size */
     margin-right: -100px;
+    margin-left: 300px;
   }
 
   .navbar {
@@ -282,12 +283,14 @@
   }
 
   .container {
-  margin-top: 300px;
+    margin-top: 300px;
+    margin-bottom: -300px;
+    
   }
 
    /* Styles when the menu is open */
 .navbar.open {
-  margin-top: 300px;
-  width: 20px;
+  margin-top: 1000px;
+  width: 40px;
 }
 }
