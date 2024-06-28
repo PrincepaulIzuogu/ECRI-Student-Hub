@@ -12,7 +12,7 @@ const MeetingRoom = () => {
   useEffect(() => {
     const startMeetingNow = async () => {
       try {
-        const response = await axios.post(`http://127.0.0.1:8000/api/start-meeting/${meetingId}`);
+        const response = await axios.post(`https://ecristudenthub-backend.azurewebsites.net/start-meeting/${meetingId}`);
         setMeetingUrl(response.data.meeting_url);
         window.location.href = response.data.meeting_url;
       } catch (err) {
