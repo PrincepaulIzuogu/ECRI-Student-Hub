@@ -23,23 +23,27 @@ const CourseOfficialPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/bachelor-find-mentor/`, {
-          params: {
-            degreeProgram: degree,
-            courseOfStudy: course,
-            currentCourse: courseName,
-            courseToMentorSemester: semester
-          }
-        });
-        setMentors(response.data);
-      } catch (error) {
-        console.error('Error fetching mentors:', error);
-      }
+        try {
+            const response = await axios.get('https://ecristudenthub-backend.azurewebsites.net/bachelor-find-mentor/', {
+                params: {
+                    degreeProgram: degree,
+                    courseOfStudy: course,
+                    currentCourse: courseName,
+                    courseToMentorSemester: semester
+                }
+            });
+            console.log('Mentors fetched:', response.data.mentors); // Log the fetched mentors
+            setMentors(response.data.mentors);
+        } catch (error) {
+            console.error('Error fetching mentors:', error);
+        }
     };
 
     fetchData();
-  }, [degree, course, semester, courseName]);
+}, [degree, course, semester, courseName]);
+
+
+
 
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
@@ -253,3 +257,5 @@ const CourseOfficialPage = () => {
 };
 
 export default CourseOfficialPage;
+
+ 
