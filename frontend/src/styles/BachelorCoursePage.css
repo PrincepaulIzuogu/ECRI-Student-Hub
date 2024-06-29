@@ -3,12 +3,12 @@
   padding: 20px;
   min-height: 100vh; /* Ensure it covers the full height of the viewport */
   overflow: hidden; /* Disable scrolling */
-  }
+}
 
 
   
   /* Top navigation bar styling */
-  .top-nav {
+.top-nav {
   background-color: #B2BEB5; /* Ash color */
   padding: 10px 20px;
   display: flex;
@@ -19,44 +19,44 @@
   top: 0;
   left: 0;
   z-index: 1000;
-  }
+}
   
-  .top-nav .welcome-message {
+.top-nav .welcome-message {
   font-size: 16px;
   margin-left: 20px;
-  }
+}
   
-  .top-nav .nav-icons {
+.top-nav .nav-icons {
   display: flex;
   align-items: center;
   margin-right: 200px;
-  }
+}
   
-  .top-nav .nav-icons .nav-icon {
+.top-nav .nav-icons .nav-icon {
   margin-right: 20px;
   color: #333;
   margin: 10px 20px; /* Space between icons */
   font-size: 20px;
-  }
+}
   
-  .date-time {
+.date-time {
   font-size: 14px;
   font-weight: bold;
   position: fixed; /* Position the element */
   bottom: 20px; /* Distance from the bottom of the viewport */
   right: 20px; /* Distance from the right of the viewport */
-  }
+}
   
   /* Container styling */
-  .container {
+.container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   padding-top: 70px; /* Adjust for fixed top nav bar */
-  }
+}
   
   /* Navbar container */
-  .navbar {
+.navbar {
   background-color: #333;
   padding: 20px;
   position: fixed;
@@ -68,47 +68,46 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  }
+}
   
-  .navbar.open {
+.navbar.open {
   opacity: 1;
   visibility: visible;
-  }
+}
   
-  .navbar ul {
+.navbar ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  }
+}
   
-  .navbar ul li {
+.navbar ul li {
   margin-bottom: 10px;
-  }
+}
   
-  .navbar ul li a {
+.navbar ul li a {
   color: #fff;
   text-decoration: none;
   font-size: 16px;
   transition: color 0.3s ease;
-  }
+}
   
-  .navbar ul li a
-  {
+  .navbar ul li a {
   text-decoration: underline;
-  }
+}
   
   /* Semester button styling */
   
-  .semester-buttons {
+.semester-buttons {
   display: flex;
   flex-direction: column; /* Column layout /
   align-items: center; /* Align items to the left */
   position: fixed;
   top: 100px; /* Adjust top position as needed */
   margin-left: 150px;
-  }
+}
   
-  .semester-button {
+.semester-button {
   background-color: #4CAF50; /* Green */
   color: white !important;
   padding: 20px 40px; /* Reduced padding */
@@ -119,27 +118,26 @@
   margin-bottom: 10px; /* Reduced margin bottom */
   border-radius: 5px;
   width: 500px; /* Reduced width */
-  }
+}
   
-  .semester-button
-  {
+.semester-button {
   background-color: #45a049; /* Darker green on hover */
-  }
+}
   
   /* Welcome message container styling */
-  .degree-welcome-container {
+.degree-welcome-container {
   text-align: left;
   margin-top: 10px;
-  }
+}
   
   /* Add font weight for the bars icon */
-  .bars-icon {
+.bars-icon {
   font-weight: bold;
   font-size: 24px;
-  }
+}
   
   /* Action buttons styling */
-  .action-buttons {
+.action-buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-row-gap: 40px; /* Adjust vertical gap */
@@ -149,26 +147,26 @@
   margin-top: 20px; /* Adjust the top margin as needed */
   margin-left: 100px;
   margin-right: 100px;
-  }
+}
   
-  .action-button {
+.action-button {
   text-align: center;
   display: flex; /* Make button container a flex container */
   flex-direction: column; /* Stack icon and label vertically */
   align-items: center; /* Center items horizontally */
-  }
+}
   
-  .action-button
-  .action-button:nth-child(n+3) { /* Select items from the second row onwards */
+.action-button
+.action-button:nth-child(n+3) { /* Select items from the second row onwards */
   margin-left: 30px; /* Adjust the margin-left to shift them to the right */
-  }
+}
   
-  .action-button a {
+.action-button a {
   text-decoration: none;
   color: inherit;
-  }
+}
   
-  .action-icon {
+.action-icon {
   width: 100px;
   height: 100px;
   font-size: 50px;
@@ -176,16 +174,15 @@
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  }
+}
   
-  .action-label {
+.action-label {
   margin-top: 10px;
   font-size: 16px;
   text-align: center; /* Center the label */
-  }
+}
   
-  .notification-badge {
-  
+.notification-badge {
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
@@ -195,8 +192,8 @@
   padding: 3px 6px;
   border-radius: 50%;
   text-decoration: none; /* Removes underline from the link */
-  }
+}
   
-  .nav-icon {
+.nav-icon {
   text-decoration: none;
-  }
+}
