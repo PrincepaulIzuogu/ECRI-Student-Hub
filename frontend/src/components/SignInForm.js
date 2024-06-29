@@ -6,6 +6,7 @@ import '../styles/SignInForm.css';
 const SignInForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '', degreeProgram: '' });
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);  // Add loading state
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -15,6 +16,7 @@ const SignInForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);  // Set loading to true when form is submitted
     try {
       const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/login/', formData);
       console.log('Login successful:', response.data);
@@ -35,6 +37,8 @@ const SignInForm = () => {
     } catch (error) {
       console.error('Login failed:', error.response.data.detail);
       setError(error.response.data.detail);
+    } finally {
+      setLoading(false);  // Set loading to false after request is complete
     }
   };
 
@@ -60,7 +64,9 @@ const SignInForm = () => {
               Master
             </label>
           </div>
-          <button type="submit">Sign In</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Loading...' : 'Sign In'}  {/* Conditionally render button text */}
+          </button>
           {error && <div className="error">{error}</div>}
           <div className="forgot-password-links">
             <Link to="/forgot-password">Forgot Password?</Link>
@@ -76,3 +82,4 @@ const SignInForm = () => {
 };
 
 export default SignInForm;
+
