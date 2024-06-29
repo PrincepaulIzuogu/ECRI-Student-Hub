@@ -18,6 +18,13 @@ from email.mime.text import MIMEText
 from datetime import datetime, timedelta
 import requests
 import stripe
+import logging
+
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Create a FastAPI instance
 app = FastAPI()
@@ -143,6 +150,19 @@ class Message(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
 
+class UsersMessage(Base):
+    __tablename__ = "users_messages"
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    content = Column(String, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    # Define relationships
+    sender = relationship("User", foreign_keys=[sender_id])
+    receiver = relationship("User", foreign_keys=[receiver_id])
+
+
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
 
@@ -259,6 +279,22 @@ class MessageResponse(BaseModel):
     sender_email: EmailStr
     content: str
     timestamp: datetime
+
+
+# Rename MessageCreate to UserMessageCreate
+class UsersMessageCreate(BaseModel):
+    sender_email: EmailStr
+    receiver_email: EmailStr
+    content: str
+
+# Rename MessageResponse to UserMessageResponse
+class UsersMessageResponse(BaseModel):
+    id: int
+    sender_username: str
+    sender_email: EmailStr
+    content: str
+    timestamp: datetime
+
 
 
 # Dependency to get a database session
@@ -560,39 +596,51 @@ def register_mentor(mentor: MentorCreate, db: Session = Depends(get_db)):
 
 @app.get("/bachelor-find-mentor/")
 def find_mentors(degreeProgram: str, courseOfStudy: str, currentCourse: str, courseToMentorSemester: str, db: Session = Depends(get_db)):
-    # Normalize input if needed
-    degreeProgram = degreeProgram.lower()
-    courseOfStudy = courseOfStudy.title()
-    courseToMentorSemester = courseToMentorSemester  # Assuming it's already formatted correctly
+    try:
+        # Normalize input if needed
+        degreeProgram_normalized = degreeProgram.lower()
+        courseOfStudy_normalized = courseOfStudy.replace("-", " ").title()
+        currentCourse_normalized = currentCourse.lower()
+        courseToMentorSemester_normalized = courseToMentorSemester.lower()
 
-    # Query mentors based on provided criteria
-    mentors = db.query(Mentor).filter(
-        Mentor.degreeProgram.ilike(f"%{degreeProgram}%"),
-        Mentor.courseOfStudy.ilike(f"%{courseOfStudy}%"),
-        Mentor.courseToMentor.ilike(f"%{currentCourse}%"),
-        Mentor.courseToMentorSemester.ilike(f"%{courseToMentorSemester}%")
-    ).all()
+        # Log normalized input parameters
+        logger.info(f"Normalized Query Parameters - degreeProgram: {degreeProgram_normalized}, courseOfStudy: {courseOfStudy_normalized}, currentCourse: {currentCourse_normalized}, courseToMentorSemester: {courseToMentorSemester_normalized}")
 
-    # Convert mentors to response schema
-    mentor_list = []
-    for mentor in mentors:
-        mentor_data = {
-            "courseOfStudy": mentor.courseOfStudy,
-            "degreeProgram": mentor.degreeProgram,
-            "email": mentor.email,
-            "firstName": mentor.firstName,
-            "lastName": mentor.lastName,
-            "matriculationNumber": mentor.matriculationNumber,
-            "profile_picture": mentor.profile_picture,
-            "semester": mentor.semester,
-            "courseToMentor": mentor.courseToMentor,
-            "grade": mentor.grade,
-            "tutorDays": mentor.tutorDays,
-            "courseToMentorSemester": mentor.courseToMentorSemester  # Ensure this field is included
-        }
-        mentor_list.append(mentor_data)
+        # Query mentors based on provided criteria
+        mentors = db.query(Mentor).filter(
+            Mentor.degreeProgram.ilike(f"%{degreeProgram_normalized}%"),
+            Mentor.courseOfStudy.ilike(f"%{courseOfStudy_normalized}%"),
+            Mentor.courseToMentor.ilike(f"%{currentCourse_normalized}%"),
+            Mentor.courseToMentorSemester.ilike(f"%{courseToMentorSemester_normalized}%")
+        ).all()
 
-    return mentor_list
+        # Log the mentors fetched
+        logger.info(f"Mentors fetched: {mentors}")
+
+        # Convert mentors to response schema
+        mentor_list = []
+        for mentor in mentors:
+            mentor_data = {
+                "courseOfStudy": mentor.courseOfStudy,
+                "degreeProgram": mentor.degreeProgram,
+                "email": mentor.email,
+                "firstName": mentor.firstName,
+                "lastName": mentor.lastName,
+                "matriculationNumber": mentor.matriculationNumber,
+                "profile_picture": mentor.profile_picture,
+                "semester": mentor.semester,
+                "courseToMentor": mentor.courseToMentor,
+                "grade": mentor.grade,
+                "tutorDays": mentor.tutorDays,
+                "courseToMentorSemester": mentor.courseToMentorSemester
+            }
+            mentor_list.append(mentor_data)
+
+        return {"mentors": mentor_list}
+    except Exception as e:
+        logger.error(f"Error fetching mentors: {e}")
+        return {"mentors": []}
+
 
 
 # Endpoint to create a meeting in Daily.co
@@ -836,8 +884,70 @@ def get_messages(db: Session = Depends(get_db)):
     return messages
 
 
+# Endpoint to send a message
+@app.post("/messages/send", response_model=UsersMessageResponse)
+def send_message(message: UsersMessageCreate, db: Session = Depends(get_db)):
+    # Fetch sender user_id from sender_email
+    sender_user = db.query(User).filter(User.email == message.sender_email).first()
+    if not sender_user:
+        raise HTTPException(status_code=404, detail=f"Sender with email {message.sender_email} not found.")
+    
+    # Fetch receiver user_id from receiver_email
+    receiver_user = db.query(User).filter(User.email == message.receiver_email).first()
+    if not receiver_user:
+        raise HTTPException(status_code=404, detail=f"Receiver with email {message.receiver_email} not found.")
+    
+    # Create a new message in the database
+    db_message = UsersMessage(
+        sender_id=sender_user.id,
+        receiver_id=receiver_user.id,
+        content=message.content,
+        timestamp=datetime.utcnow()
+    )
+    db.add(db_message)
+    db.commit()
+    db.refresh(db_message)
+    
+    # Construct the response model with sender details
+    response_model = UsersMessageResponse(
+        id=db_message.id,
+        sender_username=sender_user.username,
+        sender_email=sender_user.email,
+        content=db_message.content,
+        timestamp=db_message.timestamp
+    )
+    
+    return response_model
 
-
+# Endpoint to retrieve received messages for a specific receiver email
+# Endpoint to retrieve received messages for a specific receiver email
+@app.get("/messages/received", response_model=List[UsersMessageResponse])
+def get_received_messages(receiver_email: EmailStr, db: Session = Depends(get_db)):
+    # Fetch receiver user_id from receiver_email
+    receiver_user = db.query(User).filter(User.email == receiver_email).first()
+    if not receiver_user:
+        raise HTTPException(status_code=404, detail=f"Receiver with email {receiver_email} not found.")
+    
+    # Fetch all messages received by the receiver
+    messages = db.query(UsersMessage).filter(UsersMessage.receiver_id == receiver_user.id).all()
+    
+    # Construct a list of UsersMessageResponse objects
+    messages_response = []
+    for message in messages:
+        sender_user = db.query(User).filter(User.id == message.sender_id).first()
+        if not sender_user:
+            continue  # Handle the case where the sender user is not found (optional)
+        
+        message_response = UsersMessageResponse(
+            id=message.id,
+            sender_username=sender_user.username,
+            sender_email=sender_user.email,
+            content=message.content,
+            timestamp=message.timestamp
+        )
+        messages_response.append(message_response)
+    
+    return messages_response
 
 @app.get("/health")
 async def health_check():
