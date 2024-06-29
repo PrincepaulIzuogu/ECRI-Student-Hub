@@ -136,51 +136,49 @@
   font-size: 24px;
 }
   
-  /* Action buttons styling */
+/* Action buttons styling */
 .action-buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 40px; /* Adjust vertical gap */
-  grid-column-gap: 20px; /* Adjust horizontal gap */
-  justify-content: flex-end; /*Align buttons to the right */
-  align-items: flex-start; /* Align buttons to the top */
-  margin-top: 20px; /* Adjust the top margin as needed */
-  margin-left: 100px;
-  margin-right: 100px;
+  grid-row-gap: 50px; /* Vertical gap between rows */
+  grid-column-gap: 20px; /* Horizontal gap between columns */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin-top: 60px; /* Adjust top margin */
 }
-  
+
 .action-button {
   text-align: center;
-  display: flex; /* Make button container a flex container */
-  flex-direction: column; /* Stack icon and label vertically */
-  align-items: center; /* Center items horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Ensure the button takes full width of grid cell */
 }
-  
-.action-button
-.action-button:nth-child(n+3) { /* Select items from the second row onwards */
-  margin-left: 30px; /* Adjust the margin-left to shift them to the right */
-}
-  
+
 .action-button a {
   text-decoration: none;
   color: inherit;
+  width: 100%; /* Ensure the anchor takes full width of grid cell */
 }
-  
+
 .action-icon {
-  width: 100px;
-  height: 100px;
-  font-size: 50px;
+  width: 120px; /* Adjust icon size */
+  height: 120px; /* Adjust icon size */
+  font-size: 50px; /* Adjust font size */
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  background-color: #f0f0f0; /* Light gray background */
+  margin: 0 auto; /* Center the icon */
 }
-  
+
 .action-label {
   margin-top: 10px;
-  font-size: 16px;
-  text-align: center; /* Center the label */
+  font-size: 16px; /* Adjust font size */
+  text-align: center;
 }
+
   
 .notification-badge {
   top: 0;
