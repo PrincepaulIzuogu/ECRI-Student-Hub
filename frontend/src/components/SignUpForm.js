@@ -63,7 +63,7 @@ const SignUpForm = () => {
     setIsSendingToken(true);
   
     try {
-      const response = await axios.post('http://127.0.0.1:8000/register/', formData);
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/register/', formData);
       console.log('Registration successful:', response.data);
       navigate('/Authentication');
     } catch (error) {
