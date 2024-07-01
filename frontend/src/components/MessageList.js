@@ -50,7 +50,7 @@ const MessageList = () => {
 
   const fetchReceivedMessages = async (receiverEmail) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/messages/received?receiver_email=${receiverEmail}`);
+      const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/messages/received?receiver_email=${receiverEmail}`);
       const updatedMessages = response.data.map(message => ({
         ...message,
         read: message.read || false // Set read status to false if not present
@@ -65,7 +65,7 @@ const MessageList = () => {
 
   const fetchSentMessages = async (senderEmail) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/messages/sent?sender_email=${senderEmail}`);
+      const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/messages/sent?sender_email=${senderEmail}`);
       setSentMessages(response.data);
     } catch (error) {
       console.error('Error fetching sent messages:', error);
@@ -75,7 +75,7 @@ const MessageList = () => {
   const handleSend = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/messages/send', {
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/messages/send', {
         sender_email: userData.email,
         receiver_email: receiverEmail,
         content: content,
