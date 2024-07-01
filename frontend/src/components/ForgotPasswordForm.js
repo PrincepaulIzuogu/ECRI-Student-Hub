@@ -18,7 +18,7 @@ const ForgotPasswordForm = () => {
       if (!email.endsWith('@stud.th-deg.de')) {
         throw new Error('Please enter a THD email');
       }
-      await axios.post('http://127.0.0.1:8000/send-token/', { email });
+      await axios.post('https://ecristudenthub-backend.azurewebsites.net/send-token/', { email });
       console.log('Token sent successfully.');
 
       // Store email in local storage
