@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Query, Request, Response, status, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, desc, DateTime, Float, Text
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, desc, DateTime, Float, Text, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
 from pydantic import BaseModel, EmailStr, Field
@@ -69,6 +69,8 @@ class User(Base):
     mentor = relationship("Mentor", uselist=False, back_populates="user")
     meetings = relationship("Meeting", back_populates="user")
     mentees = relationship("Mentee", back_populates="user")
+    sent_messages = relationship("PrivateChat", back_populates="sender", foreign_keys="[PrivateChat.sender_id]")
+    received_messages = relationship("PrivateChat", back_populates="receiver", foreign_keys="[PrivateChat.receiver_id]")
     
 
 class Token(Base):
@@ -150,8 +152,33 @@ class Message(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
 
-class UsersMessage(Base):
-    __tablename__ = "users_messages"
+class UserMessageSent(Base):
+    __tablename__ = "user_messages_sent"
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    content = Column(String, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    sender = relationship("User", foreign_keys=[sender_id])
+    receiver = relationship("User", foreign_keys=[receiver_id])
+
+class UserMessageReceived(Base):
+    __tablename__ = "user_messages_received"
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    content = Column(String, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    read = Column(Boolean, default=False)  # Define the read attribute here
+
+    sender = relationship("User", foreign_keys=[sender_id])
+    receiver = relationship("User", foreign_keys=[receiver_id])
+
+
+class PrivateChat(Base):
+    __tablename__ = "private_chats"
+
     id = Column(Integer, primary_key=True, index=True)
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -159,8 +186,9 @@ class UsersMessage(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     # Define relationships
-    sender = relationship("User", foreign_keys=[sender_id])
-    receiver = relationship("User", foreign_keys=[receiver_id])
+    sender = relationship("User", back_populates="sent_messages", foreign_keys=[sender_id])
+    receiver = relationship("User", back_populates="received_messages", foreign_keys=[receiver_id])
+
 
 
 # Create tables in the database
@@ -282,18 +310,76 @@ class MessageResponse(BaseModel):
 
 
 # Rename MessageCreate to UserMessageCreate
-class UsersMessageCreate(BaseModel):
+class UserMessageSentCreate(BaseModel):
     sender_email: EmailStr
     receiver_email: EmailStr
     content: str
 
-# Rename MessageResponse to UserMessageResponse
-class UsersMessageResponse(BaseModel):
+class UserMessageReceivedCreate(BaseModel):
+    sender_email: EmailStr
+    receiver_email: EmailStr
+    content: str
+
+class UserMessageSentResponse(BaseModel):
+    id: int
+    sender_username: str
+    sender_email: EmailStr
+    receiver_email: EmailStr
+    content: str
+    timestamp: datetime
+
+    class Config:
+        orm_mode = True
+
+class UserMessageReceivedResponse(BaseModel):
     id: int
     sender_username: str
     sender_email: EmailStr
     content: str
     timestamp: datetime
+
+    class Config:
+        orm_mode = True
+
+
+
+# Pydantic models for request and response payloads
+class EmailData(BaseModel):
+    email: EmailStr
+
+class MentorMenteeResponse(BaseModel):
+    username: str
+    email: str
+    semester: str
+    courseOfStudy: str
+    course_name: str
+
+class SearchMentorRequest(BaseModel):
+    email: EmailStr
+
+class SearchMentorResponse(BaseModel):
+    isMentor: bool
+
+
+
+class PrivateChatCreate(BaseModel):
+    sender_email: EmailStr
+    receiver_email: EmailStr
+    content: str
+
+class PrivateChatResponse(BaseModel):
+    id: int
+    sender_username: str
+    receiver_username: str
+    content: str
+    timestamp: datetime
+
+
+class MarkReadRequest(BaseModel):
+    sender_email: EmailStr
+    receiver_email: EmailStr
+
+
 
 
 
@@ -884,70 +970,180 @@ def get_messages(db: Session = Depends(get_db)):
     return messages
 
 
-# Endpoint to send a message
-@app.post("/messages/send", response_model=UsersMessageResponse)
-def send_message(message: UsersMessageCreate, db: Session = Depends(get_db)):
-    # Fetch sender user_id from sender_email
-    sender_user = db.query(User).filter(User.email == message.sender_email).first()
-    if not sender_user:
-        raise HTTPException(status_code=404, detail=f"Sender with email {message.sender_email} not found.")
+
+
+# Endpoint to fetch mentees based on mentor's email
+@app.post("/api/getMentees", response_model=List[MentorMenteeResponse])
+def get_mentees(email_data: EmailData, db: Session = Depends(get_db)):
+    try:
+        # Step 1: Find mentor by email in 'mentors' table and get mentor's user_id
+        mentor = db.query(Mentor).filter(Mentor.email == email_data.email).first()
+        if not mentor:
+            raise HTTPException(status_code=404, detail="Mentor not found")
+
+        mentor_user_id = mentor.user_id
+
+        # Step 2: Find mentees by mentor's user_id in 'mentees' table and get their details
+        mentees = (
+            db.query(Mentee.user_id, Mentee.course_name)
+            .filter(Mentee.mentor_id == mentor_user_id)
+            .all()
+        )
+
+        # Step 3: Fetch user details from 'users' table based on mentees' user_ids
+        mentee_data = []
+        for mentee_user_id, course_name in mentees:
+            user_details = db.query(User).filter(User.id == mentee_user_id).first()
+            if user_details:
+                mentee_data.append({
+                    "username": user_details.username,
+                    "email": user_details.email,
+                    "semester": user_details.semester,
+                    "courseOfStudy": user_details.courseOfStudy,
+                    "course_name": course_name
+                })
+
+        return mentee_data
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     
-    # Fetch receiver user_id from receiver_email
-    receiver_user = db.query(User).filter(User.email == message.receiver_email).first()
-    if not receiver_user:
-        raise HTTPException(status_code=404, detail=f"Receiver with email {message.receiver_email} not found.")
+@app.post("/search-mentor", response_model=SearchMentorResponse)
+def search_mentor(request: SearchMentorRequest, db: Session = Depends(get_db)):
+    mentor = db.query(Mentor).filter(Mentor.email == request.email).first()
+    return {"isMentor": mentor is not None}
+
+
+
+@app.get("/messages/sent", response_model=List[UserMessageSentResponse])
+async def get_sent_messages(sender_email: EmailStr, db: Session = Depends(get_db)):
+    sender = db.query(User).filter(User.email == sender_email).first()
+    if not sender:
+        raise HTTPException(status_code=404, detail="User not found")
     
-    # Create a new message in the database
-    db_message = UsersMessage(
-        sender_id=sender_user.id,
-        receiver_id=receiver_user.id,
+    messages = db.query(UserMessageSent).filter(UserMessageSent.sender_id == sender.id).order_by(desc(UserMessageSent.timestamp)).all()
+    return [UserMessageSentResponse(
+        id=msg.id,
+        sender_username=sender.username,
+        sender_email=sender.email,
+        receiver_email=msg.receiver.email,
+        content=msg.content,
+        timestamp=msg.timestamp
+    ) for msg in messages]
+
+@app.get("/messages/received", response_model=List[UserMessageReceivedResponse])
+async def get_received_messages(receiver_email: EmailStr, db: Session = Depends(get_db)):
+    receiver = db.query(User).filter(User.email == receiver_email).first()
+    if not receiver:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    messages = db.query(UserMessageReceived).filter(UserMessageReceived.receiver_id == receiver.id).order_by(desc(UserMessageReceived.timestamp)).all()
+    return [UserMessageReceivedResponse(
+        id=msg.id,
+        sender_username=msg.sender.username,
+        sender_email=msg.sender.email,
+        content=msg.content,
+        timestamp=msg.timestamp
+    ) for msg in messages]
+
+@app.post("/messages/send", response_model=UserMessageSentResponse)
+async def send_message(message: UserMessageSentCreate, db: Session = Depends(get_db)):
+    sender = db.query(User).filter(User.email == message.sender_email).first()
+    if not sender:
+        raise HTTPException(status_code=404, detail="Sender not found")
+    
+    receiver = db.query(User).filter(User.email == message.receiver_email).first()
+    if not receiver:
+        raise HTTPException(status_code=404, detail="Receiver not found")
+    
+    new_message_sent = UserMessageSent(
+        sender_id=sender.id,
+        receiver_id=receiver.id,
         content=message.content,
         timestamp=datetime.utcnow()
     )
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-    
-    # Construct the response model with sender details
-    response_model = UsersMessageResponse(
-        id=db_message.id,
-        sender_username=sender_user.username,
-        sender_email=sender_user.email,
-        content=db_message.content,
-        timestamp=db_message.timestamp
+
+    new_message_received = UserMessageReceived(
+        sender_id=sender.id,
+        receiver_id=receiver.id,
+        content=message.content,
+        timestamp=datetime.utcnow()
     )
     
-    return response_model
+    new_private_chat_message = PrivateChat(
+        sender_id=sender.id,
+        receiver_id=receiver.id,
+        content=message.content,
+        timestamp=datetime.utcnow()
+    )
 
-# Endpoint to retrieve received messages for a specific receiver email
-# Endpoint to retrieve received messages for a specific receiver email
-@app.get("/messages/received", response_model=List[UsersMessageResponse])
-def get_received_messages(receiver_email: EmailStr, db: Session = Depends(get_db)):
-    # Fetch receiver user_id from receiver_email
-    receiver_user = db.query(User).filter(User.email == receiver_email).first()
-    if not receiver_user:
-        raise HTTPException(status_code=404, detail=f"Receiver with email {receiver_email} not found.")
+    db.add(new_message_sent)
+    db.add(new_message_received)
+    db.add(new_private_chat_message)
+    db.commit()
+    db.refresh(new_message_sent)
+    db.refresh(new_message_received)
+    db.refresh(new_private_chat_message)
     
-    # Fetch all messages received by the receiver
-    messages = db.query(UsersMessage).filter(UsersMessage.receiver_id == receiver_user.id).all()
-    
-    # Construct a list of UsersMessageResponse objects
-    messages_response = []
-    for message in messages:
-        sender_user = db.query(User).filter(User.id == message.sender_id).first()
-        if not sender_user:
-            continue  # Handle the case where the sender user is not found (optional)
-        
-        message_response = UsersMessageResponse(
-            id=message.id,
-            sender_username=sender_user.username,
-            sender_email=sender_user.email,
-            content=message.content,
-            timestamp=message.timestamp
-        )
-        messages_response.append(message_response)
-    
-    return messages_response
+    return UserMessageSentResponse(
+        id=new_message_sent.id,
+        sender_username=sender.username,
+        sender_email=sender.email,
+        receiver_email=receiver.email,
+        content=new_message_sent.content,
+        timestamp=new_message_sent.timestamp
+    )
+
+
+
+@app.post("/messages/send-private", response_model=PrivateChatResponse)
+def send_private_message(private_chat: PrivateChatCreate, db: Session = Depends(get_db)):
+    sender = db.query(User).filter(User.email == private_chat.sender_email).first()
+    receiver = db.query(User).filter(User.email == private_chat.receiver_email).first()
+
+    if not sender or not receiver:
+        raise HTTPException(status_code=404, detail="Sender or receiver not found")
+
+    new_message = PrivateChat(
+        sender_id=sender.id,
+        receiver_id=receiver.id,
+        content=private_chat.content
+    )
+    db.add(new_message)
+    db.commit()
+    db.refresh(new_message)
+    return new_message
+
+
+
+@app.get("/private-chat/{sender_id}/{receiver_id}", response_model=List[PrivateChatResponse])
+def get_private_chat(sender_id: int, receiver_id: int, db: Session = Depends(get_db)):
+    messages = db.query(PrivateChat).filter(
+        ((PrivateChat.sender_id == sender_id) & (PrivateChat.receiver_id == receiver_id)) |
+        ((PrivateChat.sender_id == receiver_id) & (PrivateChat.receiver_id == sender_id))
+    ).order_by(PrivateChat.timestamp).all()
+    return messages
+
+
+
+@app.post("/messages/mark-read")
+async def mark_messages_as_read(message_ids: List[int]):
+    for message_id in message_ids:
+        message = next((m for m in messages if m["id"] == message_id), None)
+        if message:
+            message["read"] = True
+        else:
+            raise HTTPException(status_code=404, detail=f"Message with id {message_id} not found")
+    return {"message": "Messages marked as read"}
+
+@app.get("/users", response_model=UserResponse)
+def get_user_by_email(email: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+
 
 @app.get("/health")
 async def health_check():
