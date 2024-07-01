@@ -1,0 +1,169 @@
+/* Message.css */
+
+
+.message-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+
+
+.content {
+  display: flex;
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  margin-top: 80px;
+}
+
+.message-form {
+  width: 30%;
+  margin-right: 20px;
+}
+
+.message-form h2 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.message-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-form label {
+  margin-bottom: 5px;
+}
+
+.message-form input,
+.message-form textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.message-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.message-form button:hover {
+  background-color: #0056b3;
+}
+
+.message-list {
+  flex: 1;
+}
+
+.message-view-toggle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.message-view-toggle button {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.message-view-toggle button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.message-view-toggle .active {
+  background-color: #007bff;
+  color: white;
+}
+
+.message-container {
+  width: 70%;
+  height: 100%;
+}
+
+.message-container h2 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.message-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.message-container li {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.message-container li:hover {
+  background-color: #f0f0f0;
+}
+
+.message-container .message-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.message-container .message-info svg {
+  font-size: 1.2rem;
+}
+
+.message-container .message-content {
+  margin-top: 5px;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.message-container .no-messages {
+  margin-top: 10px;
+  color: #888;
+}
+
+.read {
+  font-weight: normal;
+}
+
+.unread {
+  font-weight: bold;
+}
+
+
+
+
+
+
+.unread-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0 5px;
+  font-size: 0.8rem;
+  position: relative;
+  top: -10px;
+  left: -10px;
+}
+.chat-header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}

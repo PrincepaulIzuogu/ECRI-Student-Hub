@@ -1,0 +1,211 @@
+/* Top navigation bar styling */
+
+.top-nav {
+  background-color: #B2BEB5; /* Ash color */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.top-nav .welcome-message {
+  font-size: 16px;
+  margin-left: 20px;
+}
+
+.top-nav .nav-icons {
+  display: flex;
+  align-items: center;
+  margin-right: 200px;
+}
+
+.top-nav .nav-icons .nav-icon {
+  margin-right: 20px;
+  color: #333;
+  margin: 10px 20px; /* Space between icons */
+  font-size: 20px;
+}
+
+.date-time {
+  font-size: 14px;
+  font-weight: bold;
+  position: fixed; /* Position the element */
+  bottom: 20px; /* Distance from the bottom of the viewport */
+  right: 20px; /* Distance from the right of the viewport */
+}
+
+
+/* Container styling */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 70px; /* Adjust for fixed top nav bar */
+  
+}
+
+/* Navbar container */
+.navbar {
+  background-color: #333;
+  padding: 20px;
+  position: fixed;
+  top: 60px; /* Adjust based on top nav bar height */
+  right: 20px;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.navbar.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar ul li {
+  margin-bottom: 10px;
+}
+
+.navbar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
+
+
+.heading {
+  margin-bottom: 20px;
+}
+
+.mentors-list {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mentors-list h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.mentors-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.mentors-list li {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mentors-list strong {
+  font-weight: bold;
+}
+
+/* Profile picture styling */
+.mentor-profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Mentor information styling */
+.mentor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mentor-detail {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Book Now button styling */
+.book-now-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.book-now-button:hover {
+  background-color: #45a049;
+}
+
+/* Mentor booking styling */
+.mentor-booking {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-icons {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+
+  .nav-icon {
+    margin-right: 10px;
+  }
+
+  .menu-icon {
+    margin-left: auto;
+  }
+
+  .navbar {
+    left: -250px; /* Off-screen initially */
+    width: 200px;
+  }
+
+  .navbar.open {
+    left: 0;
+  }
+
+  .mentors-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mentor-booking {
+    align-items: flex-start;
+  }
+}

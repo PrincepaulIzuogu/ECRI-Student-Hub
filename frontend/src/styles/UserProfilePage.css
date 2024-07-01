@@ -1,0 +1,63 @@
+/* UserProfilePage.css */
+
+/* Rectangular container for the profile details */
+/* Profile Container */
+.profile-container {
+  border: 1px solid #ccc;
+  background-color: #B2BEB5;
+  border-radius: 5px;
+  padding: 40px;
+  margin-bottom: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+/* Profile Picture Container */
+.profile-picture-container {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-picture-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Default Profile Icon */
+.default-profile-icon {
+  font-size: 220px;
+  color: #ccc;
+}
+
+.upload-profile-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.upload-profile-button:hover {
+  background-color: #0056b3;
+}
+
+.upload-profile-button:focus {
+  outline: none;
+}
+
+/* Add this CSS to your existing UserProfilePage.css file */
+.warning-icon {
+  color: red; /* Sets the color of the icon to red */
+}

@@ -1,0 +1,106 @@
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Light gray background color */
+    perspective: 1000px; /* Add perspective for 3D effect */
+  }
+  
+  .signup-container.rotate-out-signup {
+    animation: rotateOutSignUp 0.5s forwards; /* Rotate out animation */
+  }
+  
+  .signup-container.rotate-in-signup {
+    animation: rotateInSignUp 0.5s forwards; /* Rotate in animation */
+  }
+  
+  .signup-left {
+    text-align: left;
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+  
+  .signup-box {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .signup-box h2 {
+    margin-bottom: 20px;
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .signup-form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .signup-form button {
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .signup-form button:hover {
+    background-color: darkblue;
+  }
+  
+  .signup-links {
+    margin-top: 10px;
+    display: flex;
+    text-align: center;
+  }
+  
+  .signup-links span {
+    margin-right: 5px;
+  }
+  
+  .signup-links a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: blue;
+  }
+  
+  .signup-links a:hover {
+    text-decoration: underline;
+    color: darkblue;
+  }
+
+  .radio-container {
+    margin-bottom: 10px; /* Add margin bottom to create space below the radio buttons */
+  }
+  
+  .radio-container label {
+    display: inline-block; /* Display radio buttons in a horizontal line */
+    margin-right: 50px; /* Add margin right to create space between each radio button */
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+
+  /* Style for the select dropdown */
+.signup-form select {
+  height: 40px; /* Adjust the height as needed */
+  margin-bottom: 10px; /* Add margin bottom */
+  /* Add any other styles you want for the dropdown */
+}
