@@ -26,7 +26,7 @@ const ConfirmTokenForm = () => {
   const handleConfirmToken = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
-      const response = await axios.post('http://127.0.0.1:8000/confirm-token/', { token });
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/confirm-token/', { token });
       console.log('Token confirmed:', response.data); // Log successful token confirmation
       // Store user email in local storage
       localStorage.setItem('resetEmail', email);
