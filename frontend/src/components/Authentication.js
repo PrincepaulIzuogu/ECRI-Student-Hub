@@ -17,7 +17,7 @@ const Authentication = () => {
   useEffect(() => {
     async function fetchUserDetails() {
       try {
-        const response = await axios.get('http://localhost:8000/user-details');
+        const response = await axios.get('https://ecristudenthub-backend.azurewebsites.net/user-details');
         const userData = response.data;
         setUsername(userData.username);
         setEmail(userData.email);
@@ -54,7 +54,7 @@ const Authentication = () => {
 
   const confirmToken = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/confirm-token', { token });
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/confirm-token', { token });
       if (response.data.message === "Token confirmed successfully") {
         setTokenConfirmed(true);
         navigate('/signin');
