@@ -14,7 +14,9 @@ const MasterCoursePage = ({ user }) => {
   const [newNotification, setNewNotification] = useState(false);
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
+  const [notificationsCount, setNotificationsCount] = useState(0); // State to track unread notifications
   const [messages, setMessages] = useState([]);
+  const [lastMessageCheckTime, setLastMessageCheckTime] = useState(null); // Track the last message check time
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -38,6 +40,55 @@ const MasterCoursePage = ({ user }) => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (userData) {
+      const storedLastMessageCheckTime = localStorage.getItem('lastMessageCheckTime');
+      if (storedLastMessageCheckTime) {
+        setLastMessageCheckTime(new Date(storedLastMessageCheckTime));
+      }
+      fetchReceivedMessages(userData.email);
+      fetchNotifications(); // Fetch notifications when userData is available
+    }
+  }, [userData]);
+
+  const fetchReceivedMessages = async (receiverEmail) => {
+    try {
+      const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/messages/received?receiver_email=${receiverEmail}`);
+      setMessages(response.data);
+      const unreadMessages = response.data.filter(message => !message.read).length;
+      setUnreadCount(unreadMessages);
+
+      // Update last message check time to now
+      localStorage.setItem('lastMessageCheckTime', new Date().toISOString());
+      setLastMessageCheckTime(new Date());
+    } catch (error) {
+      console.error('Error fetching received messages:', error);
+    }
+  };
+
+  const fetchNotifications = () => {
+    const storedReminders = JSON.parse(localStorage.getItem('reminders')) || [];
+    setNotificationsCount(storedReminders.length);
+  };
+
+  const handleMessagesClick = async () => {
+    // Check if there are unread messages since last check
+    if (lastMessageCheckTime && messages.some(message => !message.read && new Date(message.timestamp) > lastMessageCheckTime)) {
+      // Get unread message IDs
+      const unreadMessageIds = messages.filter(message => !message.read).map(message => message.id);
+      if (unreadMessageIds.length > 0) {
+        try {
+          // Mark messages as read on the server
+          await axios.post('https://ecristudenthub-backend.azurewebsites.net/messages/mark-read', { messageIds: unreadMessageIds });
+          // Fetch messages again to update read status
+          fetchReceivedMessages(userData.email);
+        } catch (error) {
+          console.error('Error marking messages as read:', error);
+        }
+      }
+    }
+  };
 
   const getHomeLink = () => {
     if (!userData) return "/";
@@ -69,7 +120,7 @@ const MasterCoursePage = ({ user }) => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/search-mentor', { email: userData.email });
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/search-mentor', { email: userData.email });
       if (response.data.isMentor) {
         navigate(getDashboardLink());
       } else {
@@ -78,23 +129,6 @@ const MasterCoursePage = ({ user }) => {
     } catch (error) {
       console.error('Error checking mentor status:', error);
       alert("An error occurred while checking mentor status");
-    }
-  };
-
-  useEffect(() => {
-    if (userData) {
-      fetchReceivedMessages(userData.email);
-    }
-  }, [userData]);
-
-  const fetchReceivedMessages = async (receiverEmail) => {
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/messages/received?receiver_email=${receiverEmail}`);
-      setMessages(response.data);
-      const unreadMessages = response.data.filter(message => !message.read).length;
-      setUnreadCount(unreadMessages);
-    } catch (error) {
-      console.error('Error fetching received messages:', error);
     }
   };
 
@@ -122,13 +156,20 @@ const MasterCoursePage = ({ user }) => {
             {newNotification && !userData.profile_picture && <span className="notification-badge">1</span>}
             <FaUser />
           </Link>
-          <Link to="/notifications" className="nav-icon"><FaBell /></Link>
-          <Link to="/messages" className="nav-icon"><FaEnvelope />{unreadCount > 0 && <span className="unread-count">{unreadCount}</span>}</Link>
+          <Link to="/notifications" className="nav-icon">
+            <FaBell />
+            {notificationsCount > 0 && <span className="notification-count">{notificationsCount}</span>}
+          </Link>
+          <Link to="/messages" className="nav-icon">
+            <FaEnvelope />
+            {unreadCount > 0 && <span className="unread-count">{unreadCount}</span>}
+          </Link>
         </div>
         <div className="menu-icon" onClick={toggleMenu}>
           <FaBars className="bars-icon" />
         </div>
       </div>
+
       <nav className={`navbar ${menuOpen ? 'open' : ''}`}>
         <ul>
           <li><Link to="/settings"><FaCog className="nav-icon" /> Settings</Link></li>
@@ -138,7 +179,9 @@ const MasterCoursePage = ({ user }) => {
           <li><Logout /></li>
         </ul>
       </nav>
+
       <span className="date-time">{dateTime.toLocaleString()}</span>
+
       <div className="master-container">
         <div className="action-buttons">
           <div className="action-button">
