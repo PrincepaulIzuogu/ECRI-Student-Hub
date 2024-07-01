@@ -18,7 +18,7 @@ const SignInForm = () => {
     e.preventDefault();
     setLoading(true);  // Set loading to true when form is submitted
     try {
-      const response = await axios.post('http://127.0.0.1:8000/login/', formData);
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/login/', formData);
       console.log('Login successful:', response.data);
       const userData = response.data;
       const { courseOfStudy, degreeProgram } = userData;
