@@ -54,7 +54,7 @@ const BachelorCoursePage = ({ user }) => {
 
   const fetchReceivedMessages = async (receiverEmail) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/messages/received?receiver_email=${receiverEmail}`);
+      const response = await axios.get(`https://ecristudenthub-backend.azurewebsites.net/messages/received?receiver_email=${receiverEmail}`);
       setMessages(response.data);
       const unreadMessages = response.data.filter(message => !message.read).length;
       setUnreadCount(unreadMessages);
@@ -120,7 +120,7 @@ const BachelorCoursePage = ({ user }) => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/search-mentor', { email: userData.email });
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/search-mentor', { email: userData.email });
       if (response.data.isMentor) {
         navigate(getDashboardLink());
       } else {
