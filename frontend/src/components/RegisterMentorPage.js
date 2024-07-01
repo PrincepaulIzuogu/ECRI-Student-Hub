@@ -145,7 +145,7 @@ const handleChange = (e) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await axios.post('http://127.0.0.1:8000/mentors/', formData);
+    const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/mentors/', formData);
     const userData = response.data;
       const { courseOfStudy, degreeProgram } = userData;
       const courseOfStudySlug = courseOfStudy.toLowerCase().replace(/\s+/g, '-');
