@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { FaBars, FaHome, FaUser, FaBell, FaEnvelope, FaCog, FaCalendarAlt, FaAddressBook } from 'react-icons/fa';
 import DegreeWelcomeMessage from './DegreeWelcomeMessage';
 import '../styles/DiscussionForum.css';
-import Logout from './Logout'; // Import Logout component
+import Logout from './Logout';
 
 const DiscussionForum = () => {
   const [userData, setUserData] = useState({
@@ -22,6 +22,7 @@ const DiscussionForum = () => {
   const [messageContent, setMessageContent] = useState('');
   const { course } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
@@ -39,21 +40,30 @@ const DiscussionForum = () => {
       setMessages(sortedMessages);
     } catch (error) {
       console.error('Error fetching messages:', error);
+      setError('Error fetching messages');
     }
   };
 
   const handleSendMessage = async () => {
+    if (messageContent.trim() === '') {
+      setError('Message content cannot be empty');
+      return;
+    }
+
     try {
       const newMessage = {
         sender_username: userData.username,
         sender_email: userData.email,
         content: messageContent,
       };
+
       await axios.post('https://ecristudenthub-backend.azurewebsites.net/messages/', newMessage);
       setMessageContent('');
       fetchMessages();
+      setError(null);
     } catch (error) {
       console.error('Error sending message:', error);
+      setError('Error sending message');
     }
   };
 
@@ -72,7 +82,6 @@ const DiscussionForum = () => {
     }
     return "/";
   };
-
 
   const getDashboardLink = () => {
     if (!userData) return "/dashboard";
@@ -125,31 +134,31 @@ const DiscussionForum = () => {
       </nav>
 
       <div className="discussion-forum">
-  <div className="messages">
-    {messages.length === 0 ? (
-      <p className="no-messages">Start a chat :)</p>
-    ) : (
-      messages.map((msg) => (
-        <div key={msg.id} className={`message ${msg.sender_username === userData.username ? 'current-user' : 'other-users'}`}>
-          <p className="main_message">{msg.content}</p>
-          <p><strong>{msg.sender_username}</strong> ({msg.sender_email})</p>
-          <p><em>{new Date(msg.timestamp).toLocaleString()}</em></p>
-        </div>
-      ))
-    )}
-  </div>
-  </div>
-        <div className="message-input">
-          <textarea
-            value={messageContent}
-            onChange={(e) => setMessageContent(e.target.value)}
-            placeholder="Type your message here..."
-          />
-          <button onClick={handleSendMessage}>Send</button>
+        {error && <p className="error-message">{error}</p>}
+        <div className="messages">
+          {messages.length === 0 ? (
+            <p className="no-messages">Start a chat :)</p>
+          ) : (
+            messages.map((msg) => (
+              <div key={msg.id} className={`message ${msg.sender_username === userData.username ? 'current-user' : 'other-users'}`}>
+                <p className="main_message">{msg.content}</p>
+                <p><strong>{msg.sender_username}</strong> ({msg.sender_email})</p>
+                <p><em>{new Date(msg.timestamp).toLocaleString()}</em></p>
+              </div>
+            ))
+          )}
         </div>
       </div>
+      <div className="message-input">
+        <textarea
+          value={messageContent}
+          onChange={(e) => setMessageContent(e.target.value)}
+          placeholder="Type your message here..."
+        />
+        <button onClick={handleSendMessage}>Send</button>
+      </div>
+    </div>
   );
 };
 
 export default DiscussionForum;
-
