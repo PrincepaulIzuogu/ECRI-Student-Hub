@@ -970,31 +970,7 @@ def send_message(message: MessageCreate, db: Session = Depends(get_db)):
         logger.error(f"Error sending message: {e}")
         raise HTTPException(status_code=422, detail="Unprocessable Entity")
 
-# Middleware to log request data
-@app.middleware("http")
-async def log_request_data(request: Request, call_next):
-    body = await request.body()
-    logger.info(f"Request body: {body.decode('utf-8')}")
-    response = await call_next(request)
-    return response
 
-# Custom exception handler for 422 errors
-@app.exception_handler(422)
-async def validation_exception_handler(request: Request, exc):
-    body = await request.body()
-    logger.error(f"Validation error for request body: {body.decode('utf-8')}")
-    logger.error(f"Exception: {exc}")
-    return JSONResponse(
-        status_code=422,
-        content={"detail": exc.errors()},
-    )
-
-# Debug endpoint
-@app.post("/debug")
-async def debug_endpoint(request: Request):
-    body = await request.json()
-    logger.info(f"Debug endpoint received: {body}")
-    return {"received": body}
 
 
 # Endpoint to get all messages
