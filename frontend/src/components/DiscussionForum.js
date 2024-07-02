@@ -7,63 +7,57 @@ import '../styles/DiscussionForum.css';
 import Logout from './Logout';
 
 const DiscussionForum = () => {
-  const [userData, setUserData] = useState({
-    username: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    courseOfStudy: '',
-    semester: '',
-    matriculationNumber: '',
-    degreeProgram: '',
-    profile_picture: '',
-  });
+  const [userData, setUserData] = useState(null); // Initialize as null until loaded
   const [messages, setMessages] = useState([]);
   const [messageContent, setMessageContent] = useState('');
   const { course } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [error, setError] = useState(null);
+  const [loadingMessages, setLoadingMessages] = useState(false); // Loading state for messages
+  const [sendingMessage, setSendingMessage] = useState(false); // Loading state for sending message
 
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
-
     fetchMessages();
   }, []);
 
   const fetchMessages = async () => {
+    setLoadingMessages(true);
     try {
       const response = await axios.get('https://ecristudenthub-backend.azurewebsites.net/messages/');
       const sortedMessages = response.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
       setMessages(sortedMessages);
     } catch (error) {
       console.error('Error fetching messages:', error);
-      setError('Error fetching messages');
+    } finally {
+      setLoadingMessages(false);
     }
   };
 
   const handleSendMessage = async () => {
-    if (messageContent.trim() === '') {
-      setError('Message content cannot be empty');
-      return;
+    if (!messageContent.trim()) {
+      return; // Don't send empty messages
     }
 
+    setSendingMessage(true);
     try {
       const newMessage = {
         sender_username: userData.username,
         sender_email: userData.email,
-        content: messageContent,
+        content: messageContent.trim(),
       };
 
-      await axios.post('https://ecristudenthub-backend.azurewebsites.net/messages/', newMessage);
+      console.log('Sending message:', newMessage); // Log the message data before sending
+
+      const response = await axios.post('https://ecristudenthub-backend.azurewebsites.net/messages/', newMessage);
       setMessageContent('');
       fetchMessages();
-      setError(null);
     } catch (error) {
       console.error('Error sending message:', error);
-      setError('Error sending message');
+    } finally {
+      setSendingMessage(false);
     }
   };
 
@@ -107,6 +101,12 @@ const DiscussionForum = () => {
     return "/contacts";
   };
 
+  const logout = () => {
+    // Implement your logout logic here, such as clearing localStorage
+    localStorage.removeItem('userData');
+    setUserData(null); // Clear userData state
+  };
+
   return (
     <div className="discussion-forum-page">
       <div className="top-nav">
@@ -129,14 +129,15 @@ const DiscussionForum = () => {
           <li><Link to={getContactsLink()}><FaAddressBook className="nav-icon" /> Contacts</Link></li>
           <li><Link to={getDashboardLink()}><FaAddressBook className="nav-icon" /> Dashboard</Link></li>
           <li><Link to="/calendar"><FaCalendarAlt className="nav-icon" /> Calendar</Link></li>
-          <li><Logout /></li>
+          <li><Logout onLogout={logout} /></li> {/* Pass logout function to logout component */}
         </ul>
       </nav>
 
       <div className="discussion-forum">
-        {error && <p className="error-message">{error}</p>}
         <div className="messages">
-          {messages.length === 0 ? (
+          {loadingMessages ? (
+            <p className="loading">Loading messages...</p>
+          ) : messages.length === 0 ? (
             <p className="no-messages">Start a chat :)</p>
           ) : (
             messages.map((msg) => (
@@ -148,17 +149,20 @@ const DiscussionForum = () => {
             ))
           )}
         </div>
-      </div>
-      <div className="message-input">
-        <textarea
-          value={messageContent}
-          onChange={(e) => setMessageContent(e.target.value)}
-          placeholder="Type your message here..."
-        />
-        <button onClick={handleSendMessage}>Send</button>
+        <div className="message-input">
+          <textarea
+            value={messageContent}
+            onChange={(e) => setMessageContent(e.target.value)}
+            placeholder="Type your message here..."
+          />
+          <button onClick={handleSendMessage} disabled={sendingMessage}> {/* Disable button during sending */}
+            {sendingMessage ? 'Sending...' : 'Send'}
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
 export default DiscussionForum;
+
