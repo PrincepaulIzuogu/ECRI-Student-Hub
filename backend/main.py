@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Query, Request, Response, status, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, desc, DateTime, Float, Text, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
@@ -296,6 +297,7 @@ class RateMentor(BaseModel):
 
 
 # Pydantic models
+
 class MessageCreate(BaseModel):
     sender_username: str
     sender_email: EmailStr
@@ -953,20 +955,52 @@ async def update_profile(
 # Endpoint to send a message
 @app.post("/messages/", response_model=MessageResponse)
 def send_message(message: MessageCreate, db: Session = Depends(get_db)):
-    db_message = Message(
-        sender_username=message.sender_username,
-        sender_email=message.sender_email,
-        content=message.content,
+    logger.info(f"Received message: {message}")
+    try:
+        db_message = Message(
+            sender_username=message.sender_username,
+            sender_email=message.sender_email,
+            content=message.content,
+        )
+        db.add(db_message)
+        db.commit()
+        db.refresh(db_message)
+        return db_message
+    except Exception as e:
+        logger.error(f"Error sending message: {e}")
+        raise HTTPException(status_code=422, detail="Unprocessable Entity")
+
+# Middleware to log request data
+@app.middleware("http")
+async def log_request_data(request: Request, call_next):
+    body = await request.body()
+    logger.info(f"Request body: {body.decode('utf-8')}")
+    response = await call_next(request)
+    return response
+
+# Custom exception handler for 422 errors
+@app.exception_handler(422)
+async def validation_exception_handler(request: Request, exc):
+    body = await request.body()
+    logger.error(f"Validation error for request body: {body.decode('utf-8')}")
+    logger.error(f"Exception: {exc}")
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
     )
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-    return db_message
+
+# Debug endpoint
+@app.post("/debug")
+async def debug_endpoint(request: Request):
+    body = await request.json()
+    logger.info(f"Debug endpoint received: {body}")
+    return {"received": body}
+
 
 # Endpoint to get all messages
 @app.get("/messages/", response_model=List[MessageResponse])
 def get_messages(db: Session = Depends(get_db)):
-    messages = db.query(Message).all()
+    messages = db.query(Message).order_by(Message.timestamp.desc()).all()
     return messages
 
 
