@@ -966,9 +966,7 @@ def send_message(message: MessageCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(db_message)
         return db_message
-    except Exception as e:
-        logger.error(f"Error sending message: {e}")
-        raise HTTPException(status_code=422, detail="Unprocessable Entity")
+    
 
 
 
