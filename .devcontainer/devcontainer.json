@@ -13,5 +13,9 @@
       "postStartCommand": "sudo systemctl start docker",
       "postStartMessage": "Docker daemon started."
     }
-  ]
+  ],
+  "remoteEnv": {
+    "ACR_USERNAME": "${localEnv:ACR_USERNAME}",
+    "ACR_PASSWORD": "${localEnv:ACR_PASSWORD}"
+  }
 }
