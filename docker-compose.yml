@@ -25,7 +25,7 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - database
+      - ecristudenthub.postgres.database.azure.com
 
   backend:
     image: ecristudenthubacr.azurecr.io/backend:latest
