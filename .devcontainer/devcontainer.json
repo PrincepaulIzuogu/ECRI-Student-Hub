@@ -5,13 +5,13 @@
   },
   "extensions": [],
   "forwardPorts": [],
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends bash curl && curl -fsSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && sudo apt-get install -y docker.io containerd && sudo systemctl start docker && sudo systemctl enable docker && docker-compose up --build",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends bash curl && curl -fsSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && sudo apt-get install -y docker.io containerd && sudo service docker start && docker-compose up --build",
   "remoteUser": "root",
   "runServices": [
     {
       "name": "Docker",
-      "postStartCommand": "sudo systemctl start docker",
-      "postStartMessage": "Docker daemon started."
+      "postStartCommand": "echo $ACR_PASSWORD | docker login ecristudenthubacr.azurecr.io -u $ACR_USERNAME --password-stdin",
+      "postStartMessage": "Docker daemon started and authenticated to ACR."
     }
   ],
   "remoteEnv": {
