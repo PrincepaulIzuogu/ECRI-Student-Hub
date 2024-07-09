@@ -9,11 +9,12 @@
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
-  "postCreateCommand": "apk update && apk add --no-cache bash curl jq && curl -sL https://aka.ms/InstallAzureCLIDeb | bash && ./scripts/docker-login.sh && docker-compose up --build",
+  "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io docker-compose && curl -sL https://aka.ms/InstallAzureCLIDeb | bash && ./scripts/docker-login.sh && docker-compose up --build",
   "remoteUser": "root",
   "remoteEnv": {
     "ACR_USERNAME": "${localEnv:ACR_USERNAME}",
     "ACR_PASSWORD": "${localEnv:ACR_PASSWORD}"
   }
 }
+
 
