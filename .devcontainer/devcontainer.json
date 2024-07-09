@@ -1,6 +1,6 @@
 {
   "name": "Docker Compose Dev Container",
-  "image": "docker:24.0.7-dind",
+  "image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.8",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
@@ -9,10 +9,11 @@
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
-  "postCreateCommand": "apk update && apk add --no-cache bash curl && curl -fsSL https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && echo $ACR_PASSWORD | docker login ecristudenthubacr.azurecr.io -u $ACR_USERNAME --password-stdin && docker-compose up --build",
+  "postCreateCommand": "apk update && apk add --no-cache bash curl jq && curl -sL https://aka.ms/InstallAzureCLIDeb | bash && ./scripts/docker-login.sh && docker-compose up --build",
   "remoteUser": "root",
   "remoteEnv": {
     "ACR_USERNAME": "${localEnv:ACR_USERNAME}",
     "ACR_PASSWORD": "${localEnv:ACR_PASSWORD}"
   }
 }
+
